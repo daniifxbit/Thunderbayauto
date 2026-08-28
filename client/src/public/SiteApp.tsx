@@ -2,21 +2,32 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CartDrawer } from './CartDrawer';
 import { CatalogueSection } from './CatalogueSection';
 import { Facts } from './Facts';
+import { FloatingActions } from './FloatingActions';
 import { GlossarySection } from './GlossarySection';
-import { Hero } from './Hero';
+import { HeroScene } from './HeroScene';
 import { LocationSection } from './LocationSection';
 import { Marquee } from './Marquee';
+import { OverlayMenu } from './OverlayMenu';
 import { PartDetail } from './PartDetail';
 import { Preloader } from './Preloader';
+import { ProgressRail, type Chapter } from './ProgressRail';
 import { RequestForm } from './RequestForm';
 import { ServicesSection } from './ServicesSection';
 import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
 import { StageLayers } from './StageLayers';
 import { StockSection } from './StockSection';
-import { FloatingActions } from './FloatingActions';
+import { Universes } from './Universes';
 import { DICT, type Lang } from './i18n';
-import { cartCount, loadCart, loadLang, orderMessage, saveCart, saveLang, type CartItem } from './cart';
+import {
+  cartCount,
+  loadCart,
+  loadLang,
+  orderMessage,
+  saveCart,
+  saveLang,
+  type CartItem,
+} from './cart';
 import { fetchCatalogue } from '../lib/catalogue';
 import { configIssue, secretKeyMisused, supabaseConfigured } from '../lib/supabase';
 import { MissingConfig } from '../MissingConfig';
@@ -37,6 +48,7 @@ export function SiteApp() {
 
   const [cart, setCart] = useState<CartItem[]>(() => loadCart());
   const [cartOpen, setCartOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
 
   const t = DICT[lang];
@@ -96,10 +108,10 @@ export function SiteApp() {
     [categories],
   );
 
-  const whatsappDigits = (catalogue?.settings.whatsapp ?? '').replace(/[^\d]/g, '');
   const whatsappRaw = catalogue?.settings.whatsapp ?? '';
+  const whatsappDigits = whatsappRaw.replace(/[^\d]/g, '');
 
-  /** Le stock physique ne montre que les références réellement chiffrées. */
+  /** Le stock ne montre que les références réellement chiffrées. */
   const priced = useMemo(
     () => parts.filter((p) => hasNumber(p.priceNew) || hasNumber(p.priceUsed)),
     [parts],
@@ -127,92 +139,86 @@ export function SiteApp() {
   const detailPart = detailId ? (parts.find((p) => p.id === detailId) ?? null) : null;
   const message = orderMessage(cart, t);
 
+  const chapters = useMemo<Chapter[]>(() => {
+    const list: Chapter[] = [
+      { id: 'accueil', label: 'Thunder Bay Auto' },
+      { id: 'univers', label: t.universTitle },
+    ];
+    if (priced.length > 0) list.push({ id: 'stock', label: t.stockT1 });
+    list.push(
+      { id: 'catalogue', label: t.navCatalogue },
+      { id: 'services', label: t.navServices },
+      { id: 'localisation', label: t.navLocation },
+      { id: 'recherche', label: t.navRequest },
+    );
+    return list;
+  }, [priced.length, t]);
+
   if (!supabaseConfigured || secretKeyMisused) return <MissingConfig issue={configIssue()} />;
 
   return (
-    <div className="s-root">
+    <div className="site">
       <Preloader t={t} />
       <StageLayers />
 
-      <SiteHeader t={t} lang={lang} onLang={chooseLang} />
-      <Hero t={t} />
-      <Marquee />
+      <SiteHeader t={t} onOpenMenu={() => setMenuOpen(true)} />
+      <ProgressRail chapters={chapters} />
 
-      <section id="univers" className="s-section s-section--first">
-        <div className="s-wrap">
-          <div className="s-head">
-            <span className="s-kicker">{t.kUnivers}</span>
-            <h2 className="s-h2">{t.universTitle}</h2>
-          </div>
-          <div className="s-univers">
-            {(['Auto', 'Camion', 'Moto', 'Bateau'] as Vehicle[]).map((v, i) => (
-              <a
-                key={v}
-                href="#catalogue"
-                className="s-univers__card"
-                onClick={() => {
-                  setVehicle(v);
-                  setQuery('');
-                }}
-              >
-                <div className="s-univers__top">
-                  <span>UNIV-0{i + 1}</span>
-                  <span className="s-univers__count">
-                    {parts.filter((p) => p.vehicles.includes(v)).length} {t.refsWord}
-                  </span>
-                </div>
-                <div className="s-univers__body">
-                  <h3 className="s-univers__name">{t.veh[v]}</h3>
-                  <p className="s-univers__text">{t.univDesc[v]}</p>
-                  <span className="s-univers__link">{t.filterCat}</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      <main>
+        <HeroScene t={t} lang={lang} />
+        <Marquee />
 
-      <Facts t={t} />
-
-      {priced.length > 0 ? (
-        <StockSection
+        <Universes
           t={t}
-          products={priced}
-          total={parts.length}
+          parts={parts}
+          onPick={(v) => {
+            setVehicle(v);
+            setQuery('');
+          }}
+        />
+
+        <Facts t={t} />
+
+        {priced.length > 0 ? (
+          <StockSection
+            t={t}
+            products={priced}
+            total={parts.length}
+            categoryName={categoryName}
+            inCart={inCart}
+            onAdd={addToCart}
+            onOpen={(part) => setDetailId(part.id)}
+          />
+        ) : null}
+
+        <CatalogueSection
+          t={t}
+          loading={!catalogue}
+          categories={shownCats}
+          visible={visible}
+          rows={rows}
+          activeCatId={activeCatId}
+          vehicle={vehicle}
+          query={query}
+          totalParts={parts.length}
+          searching={searching}
           categoryName={categoryName}
           inCart={inCart}
+          onVehicle={setVehicle}
+          onCategory={(id) => {
+            setCatId(id);
+            setQuery('');
+          }}
+          onQuery={setQuery}
           onAdd={addToCart}
           onOpen={(part) => setDetailId(part.id)}
         />
-      ) : null}
 
-      <CatalogueSection
-        t={t}
-        loading={!catalogue}
-        categories={shownCats}
-        visible={visible}
-        rows={rows}
-        activeCatId={activeCatId}
-        vehicle={vehicle}
-        query={query}
-        totalParts={parts.length}
-        searching={searching}
-        categoryName={categoryName}
-        inCart={inCart}
-        onVehicle={(v) => setVehicle(v)}
-        onCategory={(id) => {
-          setCatId(id);
-          setQuery('');
-        }}
-        onQuery={setQuery}
-        onAdd={addToCart}
-        onOpen={(part) => setDetailId(part.id)}
-      />
-
-      <GlossarySection t={t} />
-      <ServicesSection t={t} />
-      <LocationSection t={t} />
-      <RequestForm t={t} whatsappDigits={whatsappDigits} />
+        <GlossarySection t={t} />
+        <ServicesSection t={t} />
+        <LocationSection t={t} />
+        <RequestForm t={t} whatsappDigits={whatsappDigits} />
+      </main>
 
       <SiteFooter t={t} whatsappDigits={whatsappDigits} whatsappRaw={whatsappRaw} />
 
@@ -223,6 +229,10 @@ export function SiteApp() {
         whatsappRaw={whatsappRaw}
         onOpenCart={() => setCartOpen(true)}
       />
+
+      {menuOpen ? (
+        <OverlayMenu t={t} lang={lang} onLang={chooseLang} onClose={() => setMenuOpen(false)} />
+      ) : null}
 
       {detailPart ? (
         <PartDetail
@@ -246,7 +256,7 @@ export function SiteApp() {
         />
       ) : null}
 
-      {loadError ? <div className="s-error">{loadError.toUpperCase()}</div> : null}
+      {loadError ? <div className="siteerror">{loadError.toUpperCase()}</div> : null}
     </div>
   );
 }

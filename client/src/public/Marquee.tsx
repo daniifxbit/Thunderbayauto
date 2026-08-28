@@ -23,11 +23,11 @@ const MARKS = [
 
 function Run({ hidden }: { hidden?: boolean }) {
   return (
-    <div className="s-marquee__run" aria-hidden={hidden ? 'true' : undefined}>
+    <div className="marquee__run" aria-hidden={hidden ? 'true' : undefined}>
       {MARKS.map((mark) => (
-        <span key={mark} className="s-marquee__item">
+        <span key={mark} className="marquee__item">
           {mark}
-          <span className="s-dot" />
+          <i className="marquee__dot" />
         </span>
       ))}
     </div>
@@ -37,8 +37,8 @@ function Run({ hidden }: { hidden?: boolean }) {
 /** Bandeau des marques, défilement continu — la seconde piste évite la coupure. */
 export function Marquee() {
   return (
-    <section className="s-marquee">
-      <div className="s-marquee__track">
+    <section className="marquee">
+      <div className="marquee__track">
         <Run />
         <Run hidden />
       </div>

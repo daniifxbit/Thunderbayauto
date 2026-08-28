@@ -13,17 +13,17 @@ export function FloatingActions({ t, count, whatsappDigits, whatsappRaw, onOpenC
   const waHref = whatsappDigits ? 'https://wa.me/' + whatsappDigits : '#recherche';
 
   return (
-    <div className="s-float">
-      <button type="button" className="s-float__cart" onClick={onOpenCart}>
-        {t.cartBtn}
-        <span className="s-float__count">{count}</span>
-      </button>
-
-      <a href={waHref} className="s-float__wa" aria-label="Écrire sur WhatsApp">
-        <span className="s-float__pulse" />
+    <div className="dock">
+      <a href={waHref} className="dock__wa" aria-label="WhatsApp">
+        <i className="pulse" />
         WhatsApp
-        <span className="s-float__num">{whatsappRaw || t.tbc}</span>
+        <span className="dock__num">{whatsappRaw || t.tbc}</span>
       </a>
+
+      <button type="button" className="dock__cart" onClick={onOpenCart}>
+        {t.cartBtn}
+        <span className="dock__count">{count}</span>
+      </button>
     </div>
   );
 }

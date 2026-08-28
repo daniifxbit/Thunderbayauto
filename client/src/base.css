@@ -34,7 +34,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
+  /* Charbon du site public ; l'administration repeint son propre fond. */
+  background: #0a0d11;
   color: var(--ink);
 }
 

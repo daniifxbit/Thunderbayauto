@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { ChapterHead } from './Chapter';
 import type { Dict } from './i18n';
+import { prefersReducedMotion, useReveal } from './motion';
 
-const DURATION = 1400;
+const DURATION = 1600;
 
 function format(value: number): string {
   return Math.round(value).toLocaleString('fr-CA').replace(/,/g, ' ');
@@ -9,7 +11,7 @@ function format(value: number): string {
 
 /** Le chiffre se compose à l'entrée dans le cadre, puis reste tel quel. */
 function Counter({ target, suffix }: { target: number; suffix?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const node = ref.current;
@@ -19,7 +21,7 @@ function Counter({ target, suffix }: { target: number; suffix?: string }) {
       node.textContent = format(target) + (suffix ? ' ' + suffix : '');
     };
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (prefersReducedMotion()) {
       settle();
       return;
     }
@@ -34,7 +36,7 @@ function Counter({ target, suffix }: { target: number; suffix?: string }) {
           const step = (now: number) => {
             const k = Math.min(1, (now - start) / DURATION);
             node.textContent =
-              format(target * (1 - Math.pow(1 - k, 3))) + (suffix ? ' ' + suffix : '');
+              format(target * (1 - Math.pow(1 - k, 4))) + (suffix ? ' ' + suffix : '');
             if (k < 1) frame = requestAnimationFrame(step);
           };
           frame = requestAnimationFrame(step);
@@ -51,39 +53,43 @@ function Counter({ target, suffix }: { target: number; suffix?: string }) {
   }, [target, suffix]);
 
   return (
-    <div ref={ref} className="s-fact__value">
+    <span ref={ref} className="fact__value chrome">
       {format(target) + (suffix ? ' ' + suffix : '')}
-    </div>
+    </span>
   );
 }
 
 export function Facts({ t }: { t: Dict }) {
-  return (
-    <section className="s-section">
-      <div className="s-wrap">
-        <div className="s-head">
-          <span className="s-kicker">{t.kFacts}</span>
-          <span className="s-head__note">{t.factsNote}</span>
-        </div>
+  const ref = useReveal<HTMLDivElement>(0.15);
 
-        <div className="s-facts">
-          <div className="s-fact">
+  return (
+    <section id="faits" className="band">
+      <div className="hold">
+        <ChapterHead
+          index="02"
+          kicker={t.kFacts}
+          title={t.factsNote}
+          aside={<span className="tag">USD</span>}
+        />
+
+        <div className="facts" ref={ref}>
+          <div className="fact">
             <Counter target={720000} />
-            <div className="s-fact__label">{t.fact1}</div>
+            <p className="fact__label">{t.fact1}</p>
           </div>
-          <div className="s-fact">
+          <div className="fact">
             <Counter target={150} suffix="$" />
-            <div className="s-fact__label">{t.fact2}</div>
+            <p className="fact__label">{t.fact2}</p>
           </div>
-          <div className="s-fact">
+          <div className="fact">
             <Counter target={30} suffix="j" />
-            <div className="s-fact__label">
-              {t.fact3} <span className="s-fact__tbc">{t.tbc}</span>
-            </div>
+            <p className="fact__label">
+              {t.fact3} <span className="fact__tbc">{t.tbc}</span>
+            </p>
           </div>
-          <div className="s-fact">
-            <div className="s-fact__value s-fact__value--short">AM. DU N.</div>
-            <div className="s-fact__label">{t.fact4}</div>
+          <div className="fact">
+            <span className="fact__value fact__value--word chrome">AM. DU N.</span>
+            <p className="fact__label">{t.fact4}</p>
           </div>
         </div>
       </div>

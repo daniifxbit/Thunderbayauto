@@ -46,39 +46,39 @@ export function CartDrawer({ t, cart, message, whatsappDigits, onChange, onClose
   }
 
   return (
-    <div className="s-drawer">
-      <button type="button" className="s-drawer__scrim" aria-label={t.close} onClick={onClose} />
+    <div className="basket">
+      <button type="button" className="basket__scrim" aria-label={t.close} onClick={onClose} />
 
-      <aside className="s-drawer__panel" aria-label={t.cartBtn}>
-        <div className="s-drawer__head">
-          <div className="s-drawer__titles">
-            <span className="s-drawer__kicker">{t.cartKicker}</span>
-            <h2 className="s-drawer__title">{title}</h2>
+      <aside className="basket__panel" aria-label={t.cartBtn}>
+        <div className="basket__head">
+          <div>
+            <span className="tag">{t.cartKicker}</span>
+            <h2 className="basket__title">{title}</h2>
           </div>
-          <button type="button" className="s-outline s-outline--sm" onClick={onClose}>
+          <button type="button" className="btn btn--ghost btn--sm" onClick={onClose}>
             {t.close}
           </button>
         </div>
 
-        <div className="s-drawer__list">
+        <div className="basket__list">
           {cart.map((item, index) => (
-            <div key={item.id} className="s-line">
-              <span className="s-thumb">{item.image ? <img src={item.image} alt="" /> : null}</span>
-              <span className="s-line__text">
-                <span className="s-line__name">{item.name}</span>
-                <span className="s-line__meta">
+            <div key={item.id} className="line">
+              <span className="thumb">{item.image ? <img src={item.image} alt="" /> : null}</span>
+              <span className="line__text">
+                <b>{item.name}</b>
+                <i>
                   {item.ref} · {item.price}
-                </span>
+                </i>
               </span>
-              <span className="s-line__qty">
-                <button type="button" className="s-step" onClick={() => setQty(index, item.qty - 1)}>
+              <span className="line__qty">
+                <button type="button" className="step" onClick={() => setQty(index, item.qty - 1)}>
                   −
                 </button>
-                <span className="s-step__value">{item.qty}</span>
-                <button type="button" className="s-step" onClick={() => setQty(index, item.qty + 1)}>
+                <span className="step__value">{item.qty}</span>
+                <button type="button" className="step" onClick={() => setQty(index, item.qty + 1)}>
                   +
                 </button>
-                <button type="button" className="s-remove" onClick={() => setQty(index, 0)}>
+                <button type="button" className="line__remove" onClick={() => setQty(index, 0)}>
                   {t.remove}
                 </button>
               </span>
@@ -86,26 +86,26 @@ export function CartDrawer({ t, cart, message, whatsappDigits, onChange, onClose
           ))}
 
           {empty ? (
-            <div className="s-drawer__empty">
-              <span className="s-drawer__empty-title">{t.cartEmptyTitle}</span>
-              <p className="s-drawer__empty-text">{t.cartEmptyText}</p>
+            <div className="basket__empty">
+              <span className="empty__title">{t.cartEmptyTitle}</span>
+              <p>{t.cartEmptyText}</p>
             </div>
           ) : null}
         </div>
 
-        <div className="s-drawer__foot">
-          <div className="s-drawer__msg-label">{t.waMsgLabel}</div>
-          <div className="s-drawer__msg">{message}</div>
+        <div className="basket__foot">
+          <span className="tag">{t.waMsgLabel}</span>
+          <pre className="basket__msg">{message}</pre>
           <a
             href={href}
-            className={'s-confirm' + (empty ? ' s-confirm--muted' : '')}
+            className={'btn btn--wide ' + (empty ? 'btn--ghost' : 'btn--red')}
             target={!empty && whatsappDigits ? '_blank' : undefined}
             rel={!empty && whatsappDigits ? 'noopener' : undefined}
             onClick={onClose}
           >
             {label}
           </a>
-          <span className="s-drawer__note">{note}</span>
+          <span className="basket__note">{note}</span>
         </div>
       </aside>
     </div>

@@ -1,60 +1,41 @@
+import { useEffect, useState } from 'react';
 import logo from '../assets/logo-tba.png';
-import { LANGS, type Dict, type Lang } from './i18n';
+import type { Dict } from './i18n';
 
 interface Props {
   t: Dict;
-  lang: Lang;
-  onLang: (lang: Lang) => void;
+  onOpenMenu: () => void;
 }
 
-export function SiteHeader({ t, lang, onLang }: Props) {
+export function SiteHeader({ t, onOpenMenu }: Props) {
+  const [solid, setSolid] = useState(false);
+
+  // L'en-tête reste transparent sur la scène d'ouverture, puis se pose.
+  useEffect(() => {
+    const onScroll = () => setSolid(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="s-header">
-      <div className="s-header__strip">
-        <span className="s-header__hq">
-          <span className="s-dot" />
-          {t.hqLine}
-        </span>
-        <span className="s-header__contact">
-          <span>{t.shipping}</span>
-          <span className="s-header__tel">+1 548-258-2104</span>
-        </span>
-      </div>
+    <header className={'top' + (solid ? ' top--solid' : '')}>
+      <a href="#accueil" className="top__brand">
+        <img src={logo} alt="Thunder Bay Auto" />
+      </a>
 
-      <div className="s-header__row">
-        <a href="#accueil" className="s-header__brand">
-          <img
-            className="s-header__logo"
-            src={logo}
-            alt="Thunder Bay Auto — monogramme TBA chrome et rouge"
-          />
+      <div className="top__right">
+        <span className="top__hq">520 SQUIER ST · THUNDER BAY, ON</span>
+        <a href="#recherche" className="btn btn--red btn--sm">
+          {t.askPrice}
         </a>
-
-        <nav className="s-nav">
-          <a href="#catalogue">{t.navCatalogue}</a>
-          <a href="#services">{t.navServices}</a>
-          <a href="#localisation">{t.navLocation}</a>
-          <a href="#recherche">{t.navRequest}</a>
-
-          <span className="s-langs">
-            {LANGS.map((l) => (
-              <button
-                key={l}
-                type="button"
-                className={'s-lang' + (lang === l ? ' s-lang--on' : '')}
-                aria-pressed={lang === l}
-                onClick={() => onLang(l)}
-              >
-                {l.toUpperCase()}
-              </button>
-            ))}
+        <button type="button" className="top__menu" onClick={onOpenMenu}>
+          <span className="top__bars" aria-hidden="true">
+            <i />
+            <i />
           </span>
-
-          <a href="#recherche" className="s-nav__cta">
-            <span className="s-nav__cta-dot" />
-            {t.askPrice}
-          </a>
-        </nav>
+          Menu
+        </button>
       </div>
     </header>
   );

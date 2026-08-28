@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Deux éléments de mise en scène de la direction artistique : la grille de quatre
- * colonnes visible en permanence, et le curseur chrome sur poste de travail.
+ * Curseur chrome sur poste de travail : un disque qui s'élargit au survol de ce
+ * qui se clique. Absent au doigt, absent en mouvement réduit.
  */
 export function StageLayers() {
   const cursor = useRef<HTMLDivElement>(null);
@@ -15,31 +15,42 @@ export function StageLayers() {
     const dot = cursor.current;
     if (!dot) return;
 
+    let raf = 0;
+    let x = 0;
+    let y = 0;
+    let tx = 0;
+    let ty = 0;
+    let started = false;
+
+    const draw = () => {
+      // Léger retard sur le pointeur : le disque suit, il ne colle pas.
+      x += (tx - x) * 0.22;
+      y += (ty - y) * 0.22;
+      dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      raf = requestAnimationFrame(draw);
+    };
+
     const move = (event: PointerEvent) => {
-      // Le disque n'apparaît qu'au premier mouvement, pas au centre de l'écran.
-      dot.style.display = 'block';
-      dot.style.left = event.clientX + 'px';
-      dot.style.top = event.clientY + 'px';
+      tx = event.clientX;
+      ty = event.clientY;
+      if (!started) {
+        started = true;
+        x = tx;
+        y = ty;
+        dot.style.opacity = '1';
+        raf = requestAnimationFrame(draw);
+      }
       const target = event.target as Element | null;
-      const interactive = Boolean(target?.closest?.('a,button,input,textarea,[data-gloss]'));
-      dot.style.width = interactive ? '48px' : '26px';
-      dot.style.height = interactive ? '48px' : '26px';
-      dot.style.borderColor = interactive ? '#D8121F' : 'rgba(255,255,255,.72)';
+      const hot = Boolean(target?.closest?.('a,button,input,textarea,select,[data-gloss]'));
+      dot.dataset.hot = hot ? 'true' : 'false';
     };
 
     window.addEventListener('pointermove', move, { passive: true });
-    return () => window.removeEventListener('pointermove', move);
+    return () => {
+      window.removeEventListener('pointermove', move);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
-  return (
-    <>
-      <div aria-hidden="true" className="s-grid">
-        <div />
-        <div />
-        <div />
-        <div />
-      </div>
-      <div aria-hidden="true" ref={cursor} className="s-cursor" />
-    </>
-  );
+  return <div aria-hidden="true" ref={cursor} className="cursor" />;
 }

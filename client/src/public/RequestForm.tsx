@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { ChapterHead } from './Chapter';
 import type { Dict } from './i18n';
 
 interface Props {
@@ -24,7 +25,8 @@ export function RequestForm({ t, whatsappDigits }: Props) {
       .map(([label, value]) => `${label} : ${value}`);
     if (wanted.trim()) lines.push(`${t.reqWantedLabel} : ${wanted.trim()}`);
 
-    const message = t.reqIntro + '\n\n' + (lines.length ? lines.join('\n') : '—') + '\n\n' + t.reqOutro;
+    const message =
+      t.reqIntro + '\n\n' + (lines.length ? lines.join('\n') : '—') + '\n\n' + t.reqOutro;
     setSent(true);
 
     if (whatsappDigits) {
@@ -37,34 +39,23 @@ export function RequestForm({ t, whatsappDigits }: Props) {
   }
 
   return (
-    <section id="recherche" className="s-section">
-      <div className="s-wrap s-request">
-        <div>
-          <span className="s-kicker">{t.kSearch}</span>
-          <h2 className="s-request__title">
-            {t.searchT1}
-            <br />
-            {t.searchT2}
-            <br />
-            <em>{t.searchT3}</em>
-          </h2>
-          <p className="s-request__lead">{t.searchLead}</p>
-          <div className="s-request__fields">
-            {['TYPE', 'MARQUE / MODÈLE', 'ANNÉE', 'MOTORISATION', 'VIN', 'OEM', 'ÉTAT', 'QUANTITÉ', 'LIVRAISON'].map(
-              (label, i, all) => (
-                <span key={label}>
-                  {label}
-                  {i < all.length - 1 ? <span className="s-request__sep">·</span> : null}
-                </span>
-              ),
-            )}
-          </div>
-        </div>
+    <section id="recherche" className="band band--request">
+      <div className="hold">
+        <ChapterHead
+          index="07"
+          kicker={t.kSearch}
+          title={
+            <>
+              {t.searchT1} {t.searchT2} <em>{t.searchT3}</em>
+            </>
+          }
+          aside={<p className="chapter__desc">{t.searchLead}</p>}
+        />
 
-        <form className="s-form" onSubmit={submit}>
+        <form className="form" onSubmit={submit}>
           {t.fields.map(([label, placeholder], i) => (
-            <label key={label} className="s-form__field">
-              <span className="s-form__label">{label}</span>
+            <label key={label} className="field">
+              <span className="field__label">{label}</span>
               <input
                 type="text"
                 value={values[i] ?? ''}
@@ -78,8 +69,8 @@ export function RequestForm({ t, whatsappDigits }: Props) {
             </label>
           ))}
 
-          <label className="s-form__field s-form__field--wide">
-            <span className="s-form__label">{t.partWanted}</span>
+          <label className="field field--wide">
+            <span className="field__label">{t.partWanted}</span>
             <textarea
               rows={3}
               value={wanted}
@@ -91,10 +82,11 @@ export function RequestForm({ t, whatsappDigits }: Props) {
             />
           </label>
 
-          <div className="s-form__foot">
-            <span className="s-form__note">{t.formNote}</span>
-            <button type="submit" className="s-btn s-btn--red s-btn--submit">
+          <div className="form__foot">
+            <span className="tag">{t.formNote}</span>
+            <button type="submit" className="btn btn--red">
               {sent ? t.submitDone : whatsappDigits ? t.submitWa : t.submitIdle}
+              <i className="btn__arrow">→</i>
             </button>
           </div>
         </form>

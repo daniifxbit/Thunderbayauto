@@ -48,11 +48,23 @@ Pages) le font déjà.
 
 ## Le site public
 
-Reprise de `project/Thunder Bay Auto - Accueil.dc.html` : préchargeur chiffré, grille
-de quatre colonnes permanente, curseur chrome sur poste de travail, hero pleine largeur,
-bandeau de marques, quatre univers, faits chiffrés animés, sélection en stock, catalogue
-par systèmes avec recherche et filtres, glossaire au survol, services, localisation,
-fiche de demande de pièce, panier et fiches produit.
+Contenu et textes repris de `project/Thunder Bay Auto - Accueil.dc.html`, mise en scène
+redessinée : la page est une descente dans l'atelier.
+
+**Scène d'ouverture** — une benne de pick-up en vue éclatée, tracée en SVG, se monte
+pièce par pièce au fil du défilement ; chaque élément porte sa référence sur un trait de
+rappel, et un relevé compte les pièces posées (`00/07` → `07/07`). Aucun fichier 3D,
+aucune photo : le dessin reste net à toute résolution et ne pèse rien.
+
+Puis, dans l'ordre : bandeau de marques, les quatre univers en rangées balayées de rouge,
+les faits chiffrés qui se composent à l'entrée dans le cadre, la sélection en stock, le
+catalogue par systèmes avec recherche et filtres, le glossaire au survol, les services,
+la localisation et la fiche de demande. Un rail de chapitres suit la descente à droite,
+un sommaire plein écran sur fond flouté s'ouvre depuis l'en-tête.
+
+Titraille en **Big Shoulders Display** (signalétique industrielle), texte courant en
+Archivo, données et références en IBM Plex Mono. Fond charbon `#0A0D11`, acier chromé,
+un seul rouge.
 
 **Trois langues** — FR / EN / ES, sélecteur dans l'en-tête, choix mémorisé. Les
 dictionnaires sont repris mot pour mot de la maquette (`client/src/public/i18n.ts`).
