@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800&amp;family=Archivo+Narrow:wght@600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#1F232A;color:#F2F3F5}
+*{box-sizing:border-box}
+a{color:#F2F3F5;text-decoration:none}
+a:hover{color:#FF2231}
+::selection{background:#D8121F;color:#fff}
+@keyframes tba-marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@keyframes tba-scan{from{transform:translateY(-100%)}to{transform:translateY(900%)}}
+@keyframes tba-blink{0%,45%{opacity:1}50%,100%{opacity:.15}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+
+<div style="position:relative;background:#1F232A;font-family:Archivo,system-ui,sans-serif;overflow-x:hidden;">
+
+<sc-if value="{{ loaderVisible }}" hint-placeholder-val="{{ true }}">
+<div style="position:fixed;inset:0;z-index:9000;background:#1F232A;display:flex;flex-direction:column;justify-content:space-between;padding:28px 32px;">
+  <div style="display:flex;justify-content:space-between;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#A2A9B2;">
+    <span>// THUNDER BAY AUTO</span><span>520 SQUIER ST · THUNDER BAY · ON</span>
+  </div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+    <div style="font:800 clamp(64px,16vw,240px)/0.82 Archivo,sans-serif;letter-spacing:-.04em;background:linear-gradient(96deg,#f4f6f8 0%,#b7bec7 34%,#6b7278 50%,#e2e6ea 64%,#8d949c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ loaderPct }}</div>
+    <div style="font:500 11px/1.9 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#AEB5BE;max-width:320px;">{{ loaderLabel }}</div>
+  </div>
+  <div style="height:2px;background:#3A4049;position:relative;">
+    <div style="position:absolute;left:0;top:0;bottom:0;background:#D8121F;width:{{ loaderBar }};"></div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ gridOn }}" hint-placeholder-val="{{ true }}">
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:400;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr);">
+  <div style="border-left: 1px solid rgba(255,255,255,.1); position: relative"><div id="tba-cursor" aria-hidden="true" style="position: fixed; top: 501px; left: 263px; width: 26px; height: 26px; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; z-index: 9500; pointer-events: none; transform: translate(-50%,-50%); transition: width .18s,height .18s,border-color .18s; mix-blend-mode: difference"></div></div>
+  <div style="border-left:1px solid rgba(255,255,255,.1);"></div>
+  <div style="border-left:1px solid rgba(255,255,255,.1);"></div>
+  <div style="border-left:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1);"></div>
+</div>
+</sc-if>
+
+<header style="position:sticky;top:0;z-index:500;background:rgba(31,35,42,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.14);">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 20px;border-bottom:1px solid rgba(255,255,255,.11);font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#B7BDC5;flex-wrap:wrap;">
+    <span style="display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#D8121F;display:inline-block;"></span>{{ t.hqLine }}</span>
+    <span style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;"><span>{{ t.shipping }}</span><span style="color:#F2F3F5;">+1 548-258-2104</span></span>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 20px;">
+    <a href="#accueil" style="display:flex;align-items:center;gap:12px;">
+      <img src="uploads/pasted-1787588190402-0.png" alt="Thunder Bay Auto — monogramme TBA chrome et rouge" style="display:block;height:84px;width:auto;mix-blend-mode:lighten;">
+    </a>
+    <nav style="display:flex;align-items:center;gap:26px;font:600 12px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;flex-wrap:wrap;justify-content:flex-end;">
+      <a href="#catalogue">{{ t.navCatalogue }}</a>
+      <a href="#services">{{ t.navServices }}</a>
+      <a href="#localisation">{{ t.navLocation }}</a>
+      <a href="#recherche">{{ t.navRequest }}</a>
+      <span style="display:flex;gap:1px;background:rgba(255,255,255,.22);">
+        <sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+          <button type="button" onClick="{{ l.onClick }}" style="{{ l.style }}">{{ l.label }}</button>
+        </sc-for>
+      </span>
+      <a href="#recherche" style="display:inline-flex;align-items:center;gap:9px;padding:11px 17px;background:#D8121F;color:#fff;font:700 12px/1 Archivo,sans-serif;letter-spacing:.09em;" style-hover="background:#FF2231;color:#fff;">
+        <span style="width:5px;height:5px;background:#fff;border-radius:50%;"></span>{{ t.askPrice }}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<section id="accueil" style="position:relative;padding:30px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;">
+    <div style="position:relative;overflow:hidden;background:#2F353E;box-shadow:0 0 0 1px rgba(255,255,255,.15);">
+      <img src="hero-atelier.png" alt="Plaque d'acier brossée traversée d'une ligne rouge — identité Thunder Bay Auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(31,35,42,.93) 0%,rgba(31,35,42,.7) 40%,rgba(31,35,42,.2) 70%,rgba(31,35,42,.55) 100%);"></div>
+      <div style="position:relative;min-height:clamp(430px,64vh,660px);display:flex;flex-direction:column;justify-content:space-between;gap:clamp(28px,5vh,64px);padding:clamp(22px,3vw,46px);">
+        <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#D3D7DC;">
+          <span>{{ t.heroKicker }}</span>
+          <span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.45),rgba(255,255,255,0));"></span>
+          <span style="display:flex;align-items:center;gap:9px;color:#F4F5F7;"><span style="width:6px;height:6px;border-radius:50%;background:#FF3D48;"></span>{{ t.heroStock }}</span>
+        </div>
+        <h1 data-reveal="" style="margin:0;font:800 clamp(40px,8vw,116px)/0.86 Archivo,sans-serif;letter-spacing:-.045em;text-transform:uppercase;text-wrap:balance;max-width:15ch;">
+          <span style="display:block;color:#F4F5F7;">{{ t.heroT1 }}</span>
+          <span style="display:block;font-style:italic;color:#D8DCE1;">{{ t.heroT2 }}</span>
+        </h1>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+          <div style="font:500 11px/1.9 'IBM Plex Mono',monospace;letter-spacing:.13em;color:#DEE1E5;">
+            {{ t.heroMeta1 }}<br>{{ t.heroMeta2 }}
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="#catalogue" style="display:inline-flex;align-items:center;gap:10px;padding:16px 22px;background:#D8121F;color:#fff;font:700 12.5px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;" style-hover="background:#FF2231">{{ t.heroCta1 }}<span style="font-family:'IBM Plex Mono',monospace;">→</span></a>
+            <a href="#recherche" style="display:inline-flex;align-items:center;gap:10px;padding:16px 22px;background:rgba(31,35,42,.7);border:1px solid rgba(255,255,255,.34);color:#F4F5F7;font:700 12.5px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;" style-hover="border-color:#FF3D48">{{ t.heroCta2 }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-top:40px;padding-top:26px;border-top:1px solid rgba(255,255,255,.15);">
+      <p data-reveal="" style="margin:0;font:400 17px/1.6 Archivo,sans-serif;color:#D3D7DC;max-width:46ch;text-wrap:pretty;">
+        {{ t.heroLead }}
+      </p>
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:10px;">
+        <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#A2A9B2;">{{ t.q3Kicker }}</span>
+        <div style="display:flex;flex-direction:column;gap:8px;font:600 13px/1.35 Archivo,sans-serif;">
+          <span style="display:flex;gap:10px;"><span style="font-family:'IBM Plex Mono',monospace;color:#D8121F;">01</span>{{ t.q1 }}</span>
+          <span style="display:flex;gap:10px;"><span style="font-family:'IBM Plex Mono',monospace;color:#D8121F;">02</span>{{ t.q2 }}</span>
+          <span style="display:flex;gap:10px;"><span style="font-family:'IBM Plex Mono',monospace;color:#D8121F;">03</span>{{ t.q3 }}</span>
+        </div>
+      </div>
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+        <a href="#catalogue" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:linear-gradient(180deg,#3D444D,#363C45);border:1px solid rgba(255,255,255,.2);font:700 13px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;" style-hover="border-color:#D8121F;">{{ t.ctaBrowse }}<span style="font-family:'IBM Plex Mono',monospace;color:#B7BDC5;">→</span></a>
+        <a href="#recherche" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border:1px solid rgba(255,255,255,.2);font:700 13px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;" style-hover="border-color:#D8121F;">{{ t.ctaForm }}<span style="font-family:'IBM Plex Mono',monospace;color:#B7BDC5;">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="margin-top:60px;padding:16px 0;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);overflow:hidden;background:#292E36;">
+  <div style="display:flex;width:max-content;animation:tba-marquee 46s linear infinite;">
+    <div style="display:flex;gap:44px;padding-right:44px;font:700 15px/1 'Archivo Narrow',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#AEB5BE;">
+      <sc-for list="{{ marks }}" as="m" hint-placeholder-count="12"><span style="display:flex;align-items:center;gap:44px;">{{ m }}<span style="width:5px;height:5px;border-radius:50%;background:#D8121F;"></span></span></sc-for>
+    </div>
+    <div aria-hidden="true" style="display:flex;gap:44px;padding-right:44px;font:700 15px/1 'Archivo Narrow',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#AEB5BE;">
+      <sc-for list="{{ marks }}" as="m" hint-placeholder-count="12"><span style="display:flex;align-items:center;gap:44px;">{{ m }}<span style="width:5px;height:5px;border-radius:50%;background:#D8121F;"></span></span></sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="univers" style="padding:80px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.15);flex-wrap:wrap;">
+      <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kUnivers }}</span>
+      <h2 style="margin:0;font:800 clamp(26px,3.4vw,44px)/1 Archivo,sans-serif;letter-spacing:-.02em;text-transform:uppercase;">{{ t.universTitle }}</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:#1F232A;margin-top:1px;">
+      <sc-for list="{{ universes }}" as="u" hint-placeholder-count="4">
+        <a href="#catalogue" onClick="{{ u.onClick }}" data-reveal="" style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:30px 24px 24px;display:flex;flex-direction:column;gap:50px;min-height:300px;" style-hover="background:#323841">
+          <div style="display:flex;justify-content:space-between;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#B7BDC5;"><span>{{ u.num }}</span><span style="color:#D8121F;">{{ u.count }}</span></div>
+          <div style="margin-top:auto;">
+            <h3 style="margin:0;font:800 clamp(26px,2.8vw,38px)/1 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;">{{ u.name }}</h3>
+            <p style="margin:14px 0 0;font:400 14px/1.55 Archivo,sans-serif;color:#C6CBD2;">{{ u.text }}</p>
+            <span style="display:inline-block;margin-top:16px;font:600 12px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid #D8121F;padding-bottom:5px;">{{ t.filterCat }}</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section style="padding:90px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.15);flex-wrap:wrap;">
+      <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kFacts }}</span>
+      <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A2A9B2;">{{ t.factsNote }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:#1F232A;margin-top:1px;">
+      <div data-reveal="" style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:30px 24px;">
+        <div data-count="720000" style="font:800 clamp(38px,5.2vw,68px)/0.95 'IBM Plex Mono',monospace;letter-spacing:-.03em;background:linear-gradient(94deg,#f4f6f8,#b0b7bf 40%,#6b7278 52%,#dfe4e8 70%,#8f959d);-webkit-background-clip:text;background-clip:text;color:transparent;">720 000</div>
+        <div style="margin-top:12px;font:600 13px/1.4 Archivo,sans-serif;">{{ t.fact1 }}</div>
+      </div>
+      <div data-reveal="" style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:30px 24px;">
+        <div data-count="150" style="font:800 clamp(38px,5.2vw,68px)/0.95 'IBM Plex Mono',monospace;letter-spacing:-.03em;background:linear-gradient(94deg,#f4f6f8,#b0b7bf 40%,#6b7278 52%,#dfe4e8 70%,#8f959d);-webkit-background-clip:text;background-clip:text;color:transparent;">150 $</div>
+        <div style="margin-top:12px;font:600 13px/1.4 Archivo,sans-serif;">{{ t.fact2 }}</div>
+      </div>
+      <div data-reveal="" style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:30px 24px;">
+        <div data-count="30" style="font:800 clamp(38px,5.2vw,68px)/0.95 'IBM Plex Mono',monospace;letter-spacing:-.03em;background:linear-gradient(94deg,#f4f6f8,#b0b7bf 40%,#6b7278 52%,#dfe4e8 70%,#8f959d);-webkit-background-clip:text;background-clip:text;color:transparent;">30 j</div>
+        <div style="margin-top:12px;font:600 13px/1.4 Archivo,sans-serif;">{{ t.fact3 }} <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#D8121F;">{{ t.tbc }}</span></div>
+      </div>
+      <div data-reveal="" style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:30px 24px;">
+        <div style="font:800 clamp(30px,4vw,52px)/0.95 'IBM Plex Mono',monospace;letter-spacing:-.03em;background:linear-gradient(94deg,#f4f6f8,#b0b7bf 40%,#6b7278 52%,#dfe4e8 70%,#8f959d);-webkit-background-clip:text;background-clip:text;color:transparent;">AM. DU N.</div>
+        <div style="margin-top:12px;font:600 13px/1.4 Archivo,sans-serif;">{{ t.fact4 }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<sc-if value="{{ hasStock }}" hint-placeholder-val="{{ false }}">
+<section id="stock" style="padding:90px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.15);flex-wrap:wrap;">
+      <div>
+        <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kStock }}</span>
+        <h2 style="margin:14px 0 0;font:800 clamp(30px,4.6vw,62px)/0.95 Archivo,sans-serif;letter-spacing:-.03em;text-transform:uppercase;">{{ t.stockT1 }}<br><span style="font-style:italic;color:#AEB5BE;">{{ t.stockT2 }}</span></h2>
+      </div>
+      <div style="max-width:38ch;font:400 13.5px/1.6 Archivo,sans-serif;color:#C6CBD2;">{{ t.stockDesc }}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:#1F232A;margin-top:1px;">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="6">
+        <article onClick="{{ p.onOpen }}" style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:0;display:flex;flex-direction:column;cursor:pointer;" style-hover="background:#323841">
+          <div style="position:relative;aspect-ratio:4/3;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;overflow:hidden;background:repeating-linear-gradient(90deg,#2C323A 0 8px,#22272E 8px 16px);">
+            <sc-if value="{{ p.hasImage }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ p.image }}" alt="{{ p.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            </sc-if>
+            <div style="position:absolute;top:14px;left:14px;padding:6px 9px;background:#D8121F;color:#fff;font:600 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;">{{ p.state }}</div>
+            <sc-if value="{{ p.noImage }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute;inset:14px;border:1px solid rgba(255,255,255,.18);"></div>
+              <div style="position:relative;text-align:center;font:500 10.5px/1.7 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A2A9B2;">{{ t.photoSoon }}<br>{{ p.ref }}</div>
+            </sc-if>
+          </div>
+          <div style="padding:20px 20px 22px;display:flex;flex-direction:column;gap:14px;flex:1;">
+            <div style="display:flex;justify-content:space-between;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#B7BDC5;"><span>{{ p.ref }}</span><span>{{ p.cat }}</span></div>
+            <h3 style="margin:0;font:700 18px/1.25 Archivo,sans-serif;letter-spacing:-.01em;">{{ p.name }}</h3>
+            <div style="font:400 12.5px/1.6 'IBM Plex Mono',monospace;color:#C6CBD2;">{{ p.fit }}</div>
+            <div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-top:14px;border-top:1px solid rgba(255,255,255,.15);">
+              <div>
+                <div style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A2A9B2;">{{ t.priceLabel }}</div>
+                <div style="margin-top:7px;font:600 19px/1 'IBM Plex Mono',monospace;color:{{ p.priceColor }};">{{ p.price }}</div>
+              </div>
+              <button type="button" onClick="{{ p.onAdd }}" style="background:#D8121F;color:#fff;border:0;font:700 11px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:13px 15px;cursor:pointer;" style-hover="background:#FF2231">{{ p.addLabel }}</button>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+    <div style="margin-top:1px;background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:18px 20px;font:500 10.5px/1.7 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#A2A9B2;">
+      {{ stockLine }}
+    </div>
+  </div>
+</section>
+</sc-if>
+
+<section id="catalogue" style="padding:96px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.15);flex-wrap:wrap;">
+      <div>
+        <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kCat }}</span>
+        <h2 style="margin:14px 0 0;font:800 clamp(30px,4.6vw,62px)/0.95 Archivo,sans-serif;letter-spacing:-.03em;text-transform:uppercase;">{{ t.catT1 }}<br><span style="font-style:italic;color:#AEB5BE;">{{ catSubtitle }}</span></h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
+        <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;">
+          <sc-for list="{{ vfilters }}" as="v" hint-placeholder-count="5">
+            <button type="button" onClick="{{ v.onClick }}" style="{{ v.style }}">{{ v.label }}</button>
+          </sc-for>
+        </div>
+        <input type="search" value="{{ query }}" onInput="{{ onQuery }}" placeholder="{{ t.searchPh }}" style="width:min(360px,80vw);background:#292E36;border:1px solid rgba(255,255,255,.26);color:#F2F3F5;font:400 13px/1.4 'IBM Plex Mono',monospace;padding:12px 14px;outline:none;" style-focus="border-color:#D8121F">
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:1px;background:#1F232A;margin-top:1px;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:1px;background:#1F232A;">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="12">
+          <button type="button" onClick="{{ c.onClick }}" style="{{ c.style }}">
+            <span style="display:flex;align-items:baseline;gap:12px;">
+              <span style="font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:{{ c.numColor }};">{{ c.code }}</span>
+              <span style="font:700 14px/1.25 Archivo,sans-serif;letter-spacing:-.005em;text-align:left;">{{ c.name }}</span>
+            </span>
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;padding-left:35px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#A2A9B2;">
+              <span>{{ c.tags }}</span><span>{{ c.count }}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);min-height:520px;min-width:0;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 24px 18px;border-bottom:1px solid rgba(255,255,255,.15);">
+          <h3 style="margin:0;font:800 clamp(20px,2.2vw,28px)/1.05 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;">{{ tableTitle }}</h3>
+          <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A2A9B2;">{{ tableMeta }}</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <div style="min-width:980px;">
+            <div style="display:grid;grid-template-columns:72px 118px minmax(200px,1fr) 140px 140px 120px 120px 132px;gap:0;padding:12px 24px;border-bottom:1px solid rgba(255,255,255,.15);font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A2A9B2;">
+              <span>{{ t.thImage }}</span><span>{{ t.thRef }}</span><span>{{ t.thPart }}</span><span>{{ t.thState }}</span><span>{{ t.thOem }}</span><span>{{ t.thNew }}</span><span>{{ t.thUsed }}</span><span style="text-align:right;">{{ t.thCart }}</span>
+            </div>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
+              <div onClick="{{ r.onOpen }}" style="display:grid;grid-template-columns:72px 118px minmax(200px,1fr) 140px 140px 120px 120px 132px;gap:0;align-items:center;padding:13px 24px;border-bottom:1px solid rgba(255,255,255,.11);cursor:pointer;" style-hover="background:#323841">
+                <span style="position:relative;display:block;width:56px;height:42px;border:1px solid rgba(255,255,255,.2);overflow:hidden;background:repeating-linear-gradient(90deg,#2C323A 0 5px,#22272E 5px 10px);">
+                  <sc-if value="{{ r.hasImage }}" hint-placeholder-val="{{ false }}"><img src="{{ r.image }}" alt="" style="display:block;width:100%;height:100%;object-fit:cover;"></sc-if>
+                </span>
+                <span style="font:500 11px/1.3 'IBM Plex Mono',monospace;color:#B7BDC5;">{{ r.ref }}</span>
+                <span style="display:flex;flex-direction:column;gap:4px;padding-right:16px;">
+                  <span style="font:600 14px/1.3 Archivo,sans-serif;">{{ r.name }}</span>
+                  <span style="font:400 10.5px/1.4 'IBM Plex Mono',monospace;color:#A2A9B2;">{{ r.sub }}</span>
+                </span>
+                <span style="font:500 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.06em;color:{{ r.stateColor }};">{{ r.state }}</span>
+                <span style="font:400 11px/1.4 'IBM Plex Mono',monospace;color:#AEB5BE;">{{ r.oem }}</span>
+                <span style="font:600 12px/1.4 'IBM Plex Mono',monospace;color:{{ r.newColor }};">{{ r.priceNew }}</span>
+                <span style="font:600 12px/1.4 'IBM Plex Mono',monospace;color:{{ r.usedColor }};">{{ r.priceUsed }}</span>
+                <span style="display:flex;justify-content:flex-end;">
+                  <button type="button" onClick="{{ r.onAdd }}" style="{{ r.addStyle }}">{{ r.addLabel }}</button>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:44px 24px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;">
+          <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#D8121F;">{{ t.noRowsTitle }}</span>
+          <p style="margin:0;font:400 15px/1.65 Archivo,sans-serif;color:#C6CBD2;max-width:52ch;text-wrap:pretty;">{{ t.noRowsText }}</p>
+          <a href="#recherche" style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.3);padding:12px 15px;" style-hover="border-color:#D8121F;">{{ t.askThis }}</a>
+        </div>
+        </sc-if>
+        <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 24px;border-top:1px solid rgba(255,255,255,.15);">
+          <span style="font:500 10.5px/1.7 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#A2A9B2;">{{ t.catNote }}</span>
+          <a href="#recherche" style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.3);padding:12px 15px;" style-hover="border-color:#D8121F;">{{ t.askPriceShort }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:90px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1px;background:#1F232A;">
+    <div style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:36px 28px;">
+      <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kGloss }}</span>
+      <h2 style="margin:16px 0 0;font:800 clamp(26px,3vw,40px)/1 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;">{{ t.glossTitle }}</h2>
+      <p style="margin:16px 0 0;font:400 15px/1.6 Archivo,sans-serif;color:#C6CBD2;max-width:44ch;">{{ t.glossDesc }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;">
+        <sc-for list="{{ glossary }}" as="g" hint-placeholder-count="6">
+          <span onMouseEnter="{{ g.onEnter }}" onMouseLeave="{{ g.onLeave }}" style="border:1px solid rgba(255,255,255,.26);border-bottom:2px solid #D8121F;padding:9px 12px;font:600 12px/1 Archivo,sans-serif;letter-spacing:.05em;text-transform:uppercase;cursor:help;">{{ g.term }}</span>
+        </sc-for>
+      </div>
+      <div style="margin-top:22px;min-height:64px;border-left:2px solid #D8121F;padding:6px 0 6px 16px;font:400 14px/1.6 'IBM Plex Mono',monospace;color:#DEE1E5;">{{ glossActive }}</div>
+    </div>
+    </div>
+</section>
+
+<section id="services" style="padding:90px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.15);flex-wrap:wrap;">
+      <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kServices }}</span>
+      <h2 style="margin:0;font:800 clamp(26px,3.4vw,44px)/1 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;">{{ t.servicesTitle }}</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:#1F232A;margin-top:1px;">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+        <div data-reveal="" style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:28px 24px;display:flex;flex-direction:column;gap:12px;min-height:220px;">
+          <span style="font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#D8121F;">{{ s.num }}</span>
+          <h3 style="margin:0;font:700 19px/1.2 Archivo,sans-serif;letter-spacing:-.01em;">{{ s.title }}</h3>
+          <p style="margin:0;font:400 14px/1.6 Archivo,sans-serif;color:#C6CBD2;">{{ s.text }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section style="padding:90px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1px;background:#1F232A;">
+    
+    
+  </div>
+</section>
+
+<section id="localisation" style="padding:90px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.15);flex-wrap:wrap;">
+      <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kLoc }}</span>
+      <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#D8121F;">{{ t.locNote }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:#1F232A;margin-top:1px;">
+      <div style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:32px 26px;">
+        <h3 style="margin:0;font:800 24px/1.1 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;">{{ t.locHq }}</h3>
+        <div style="margin-top:16px;font:400 14px/1.8 'IBM Plex Mono',monospace;color:#DEE1E5;">520 Squier St<br>Thunder Bay, ON P7B 4A8<br>Canada</div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;font:400 13px/1.6 'IBM Plex Mono',monospace;color:#C6CBD2;">
+          <span>{{ t.telLabel }} · <a href="tel:+15482582104">+1 548-258-2104</a></span>
+          
+          
+        </div>
+      </div>
+      <div style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:32px 26px;">
+        <h3 style="margin:0;font:800 24px/1.1 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;">{{ t.locZone }}</h3>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;font:400 13.5px/1.55 Archivo,sans-serif;color:#D3D7DC;">
+          <span style="display:flex;gap:10px;"><span style="color:#D8121F;font-family:'IBM Plex Mono',monospace;">·</span>{{ t.zone1 }}</span>
+          <span style="display:flex;gap:10px;"><span style="color:#D8121F;font-family:'IBM Plex Mono',monospace;">·</span>{{ t.zone2 }}</span>
+          <span style="display:flex;gap:10px;"><span style="color:#D8121F;font-family:'IBM Plex Mono',monospace;">·</span>{{ t.zone3 }}</span>
+          <span style="display:flex;gap:10px;"><span style="color:#D8121F;font-family:'IBM Plex Mono',monospace;">·</span>{{ t.zone4 }}</span>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<section id="recherche" style="padding:90px 20px 0;">
+  <div style="max-width:1560px;margin:0 auto;border-top:1px solid rgba(255,255,255,.15);padding-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:44px;">
+    <div>
+      <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#B7BDC5;">{{ t.kSearch }}</span>
+      <h2 style="margin:18px 0 0;font:800 clamp(32px,5vw,72px)/0.92 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.035em;">{{ t.searchT1 }}<br>{{ t.searchT2 }}<br><span style="font-style:italic;color:#AEB5BE;">{{ t.searchT3 }}</span></h2>
+      <p style="margin:22px 0 0;font:400 15px/1.65 Archivo,sans-serif;color:#C6CBD2;max-width:44ch;">{{ t.searchLead }}</p>
+      <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:10px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#A2A9B2;">
+        <span>TYPE</span><span>·</span><span>MARQUE / MODÈLE</span><span>·</span><span>ANNÉE</span><span>·</span><span>MOTORISATION</span><span>·</span><span>VIN</span><span>·</span><span>OEM</span><span>·</span><span>ÉTAT</span><span>·</span><span>QUANTITÉ</span><span>·</span><span>LIVRAISON</span>
+      </div>
+    </div>
+    <form onSubmit="{{ onSubmit }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:#1F232A;align-content:start;">
+      <sc-for list="{{ fields }}" as="f" hint-placeholder-count="6">
+        <label style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:16px 16px 14px;display:flex;flex-direction:column;gap:9px;">
+          <span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#B7BDC5;">{{ f.label }}</span>
+          <input type="text" value="{{ f.value }}" onInput="{{ f.onInput }}" placeholder="{{ f.ph }}" style="background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.26);color:#F2F3F5;font:400 14px/1.4 'IBM Plex Mono',monospace;padding:7px 0;outline:none;" style-focus="border-bottom-color:#D8121F">
+        </label>
+      </sc-for>
+      <label style="background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:16px;display:flex;flex-direction:column;gap:9px;grid-column:1/-1;">
+        <span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#B7BDC5;">{{ t.partWanted }}</span>
+        <textarea rows="3" value="{{ reqWanted }}" onInput="{{ onReqWanted }}" placeholder="{{ t.partWantedPh }}" style="background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.26);color:#F2F3F5;font:400 14px/1.5 'IBM Plex Mono',monospace;padding:7px 0;outline:none;resize:vertical;" style-focus="border-bottom-color:#D8121F"></textarea>
+      </label>
+      <div style="grid-column:1/-1;background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.15);padding:18px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <span style="font:500 10.5px/1.6 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#A2A9B2;">{{ t.formNote }}</span>
+        <button type="submit" style="background:#D8121F;color:#fff;border:0;padding:15px 24px;font:700 12px/1 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;" style-hover="background:#FF2231">{{ submitLabel }}</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer style="margin-top:100px;border-top:1px solid rgba(255,255,255,.15);padding:44px 20px 26px;background:#292E36;">
+  <div style="max-width:1560px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px;">
+    <div>
+      <img src="uploads/pasted-1787588190402-0.png" alt="Thunder Bay Auto" style="display:block;height:132px;width:auto;max-width:100%;mix-blend-mode:lighten;">
+      <div style="margin-top:14px;font:500 10.5px/1.9 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A2A9B2;">{{ t.footTagline }}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px;font:400 13px/1.5 Archivo,sans-serif;color:#C6CBD2;">
+      <span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#F2F3F5;margin-bottom:4px;">{{ t.fCatalogue }}</span>
+      <a href="#catalogue">{{ t.fCatLink1 }}</a><a href="#recherche">{{ t.fCatLink2 }}</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px;font:400 13px/1.5 Archivo,sans-serif;color:#C6CBD2;">
+      <span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#F2F3F5;margin-bottom:4px;">{{ t.fHouse }}</span>
+      <a href="#services">{{ t.fServices }}</a><a href="#localisation">{{ t.fLocation }}</a><a href="#recherche">{{ t.fContact }}</a><a href="#recherche">{{ t.fLegal }}</a><a href="#recherche">{{ t.fTerms }}</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px;font:400 13px/1.7 'IBM Plex Mono',monospace;color:#C6CBD2;">
+      <span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#F2F3F5;margin-bottom:4px;">{{ t.fContactTitle }}</span>
+      <span>520 Squier St, Thunder Bay, ON P7B 4A8</span>
+      <a href="tel:+15482582104">+1 548-258-2104</a>
+      
+      
+      <span>{{ t.fWhatsapp }} · <a href="{{ waHref }}">{{ waLabel }}</a></span>
+    </div>
+  </div>
+  <div style="max-width:1560px;margin:34px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:500 10px/1.6 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#9AA1AA;">
+    <span>{{ t.copyright }}</span>
+    <span>{{ t.pricesUsd }}</span>
+    <a href="Thunder Bay Auto - Administration.dc.html" style="display:inline-flex;align-items:center;gap:9px;color:#B7BDC5;border-bottom:1px solid rgba(216,18,31,.6);padding-bottom:3px;letter-spacing:.14em;" style-hover="color:#F2F3F5;">
+      <span style="width:5px;height:5px;background:#D8121F;border-radius:50%;"></span>{{ t.adminLink }}
+    </a>
+  </div>
+</footer>
+
+<div style="position:fixed;right:18px;bottom:18px;z-index:600;display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
+  <button type="button" onClick="{{ openCart }}" style="display:flex;align-items:center;gap:12px;padding:15px 18px;background:#D8121F;color:#fff;border:0;font:700 11.5px/1 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;" style-hover="background:#FF2231">
+    {{ t.cartBtn }}
+    <span style="font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;padding:5px 8px;background:rgba(0,0,0,.32);">{{ cartCount }}</span>
+  </button>
+  <a href="{{ waHref }}" aria-label="Écrire sur WhatsApp" style="display:flex;align-items:center;gap:11px;padding:14px 17px;background:linear-gradient(180deg,#3D444D,#323841);border:1px solid rgba(255,255,255,.3);font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;" style-hover="border-color:#D8121F">
+    <span style="width:7px;height:7px;border-radius:50%;background:#D8121F;animation:tba-blink 2.4s ease-in-out infinite;"></span>WhatsApp
+    <span style="font:500 9.5px/1 'IBM Plex Mono',monospace;color:#A2A9B2;letter-spacing:.1em;">{{ waLabel }}</span>
+  </a>
+</div>
+
+<sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:850;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(26,29,35,.8);">
+  <div onClick="{{ closeDetail }}" style="position:absolute;inset:0;"></div>
+  <div style="position:relative;width:min(1000px,100%);max-height:92vh;overflow-y:auto;background:#292E36;box-shadow:0 0 0 1px rgba(255,255,255,.2);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+    <div style="position:relative;min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:repeating-linear-gradient(90deg,#2C323A 0 8px,#22272E 8px 16px);border-right:1px solid rgba(255,255,255,.15);">
+      <sc-if value="{{ detail.hasImage }}" hint-placeholder-val="{{ false }}">
+        <img src="{{ detail.image }}" alt="{{ detail.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      </sc-if>
+      <sc-if value="{{ detail.noImage }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute;inset:16px;border:1px solid rgba(255,255,255,.18);"></div>
+        <div style="position:relative;font:500 10.5px/1.7 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#A2A9B2;text-align:center;">{{ t.photoSoon }}<br>{{ detail.ref }}</div>
+      </sc-if>
+      <div style="position:absolute;top:16px;left:16px;padding:7px 10px;background:#D8121F;color:#fff;font:600 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;">{{ detail.state }}</div>
+    </div>
+    <div style="padding:26px 26px 28px;display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;">
+        <span style="font:500 10px/1.6 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#B7BDC5;">{{ t.detailKicker }}<br>{{ detail.cat }}</span>
+        <button type="button" onClick="{{ closeDetail }}" style="background:transparent;border:1px solid rgba(255,255,255,.3);color:#F2F3F5;font:600 11px/1 'IBM Plex Mono',monospace;padding:11px 13px;cursor:pointer;" style-hover="border-color:#D8121F">{{ t.close }}</button>
+      </div>
+      <h2 style="margin:0;font:800 clamp(22px,2.6vw,32px)/1.1 Archivo,sans-serif;letter-spacing:-.02em;">{{ detail.name }}</h2>
+      <p style="margin:0;font:400 15px/1.65 Archivo,sans-serif;color:#D3D7DC;text-wrap:pretty;">{{ detail.desc }}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:rgba(255,255,255,.15);">
+        <sc-for list="{{ detail.specs }}" as="s" hint-placeholder-count="5">
+          <div style="background:#292E36;padding:13px 14px;display:flex;flex-direction:column;gap:6px;">
+            <span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#A2A9B2;">{{ s.label }}</span>
+            <span style="font:600 12.5px/1.4 'IBM Plex Mono',monospace;color:{{ s.color }};">{{ s.value }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:auto;display:flex;gap:10px;flex-wrap:wrap;padding-top:8px;">
+        <button type="button" onClick="{{ detail.onAdd }}" style="flex:1;min-width:180px;background:#D8121F;color:#fff;border:0;padding:16px;font:700 12px/1 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;" style-hover="background:#FF2231">{{ detail.addLabel }}</button>
+        <a href="#recherche" onClick="{{ closeDetail }}" style="display:flex;align-items:center;justify-content:center;padding:16px 18px;border:1px solid rgba(255,255,255,.3);font:700 12px/1 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;" style-hover="border-color:#D8121F">{{ t.askPriceShort }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:800;display:flex;justify-content:flex-end;background:rgba(26,29,35,.74);">
+  <div onClick="{{ closeCart }}" style="flex:1;"></div>
+  <aside style="width:min(520px,100vw);background:#292E36;border-left:1px solid rgba(255,255,255,.2);display:flex;flex-direction:column;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:22px 24px 18px;border-bottom:1px solid rgba(255,255,255,.15);">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#B7BDC5;">{{ t.cartKicker }}</span>
+        <h2 style="margin:0;font:800 24px/1.05 Archivo,sans-serif;text-transform:uppercase;letter-spacing:-.02em;">{{ cartTitle }}</h2>
+      </div>
+      <button type="button" onClick="{{ closeCart }}" style="background:transparent;border:1px solid rgba(255,255,255,.3);color:#F2F3F5;font:600 11px/1 'IBM Plex Mono',monospace;padding:11px 13px;cursor:pointer;" style-hover="border-color:#D8121F">{{ t.close }}</button>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;">
+      <sc-for list="{{ cartItems }}" as="it" hint-placeholder-count="2">
+        <div style="display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.11);">
+          <span style="position:relative;display:block;width:56px;height:42px;border:1px solid rgba(255,255,255,.2);overflow:hidden;background:repeating-linear-gradient(90deg,#2C323A 0 5px,#22272E 5px 10px);">
+            <sc-if value="{{ it.hasImage }}" hint-placeholder-val="{{ false }}"><img src="{{ it.image }}" alt="" style="display:block;width:100%;height:100%;object-fit:cover;"></sc-if>
+          </span>
+          <span style="display:flex;flex-direction:column;gap:5px;min-width:0;">
+            <span style="font:600 14px/1.3 Archivo,sans-serif;">{{ it.name }}</span>
+            <span style="font:400 10.5px/1.5 'IBM Plex Mono',monospace;color:#A2A9B2;">{{ it.ref }} · {{ it.price }}</span>
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;">
+            <button type="button" onClick="{{ it.onDec }}" style="width:34px;height:34px;background:transparent;border:1px solid rgba(255,255,255,.26);color:#F2F3F5;font:600 14px/1 'IBM Plex Mono',monospace;cursor:pointer;" style-hover="border-color:#D8121F">−</button>
+            <span style="min-width:26px;text-align:center;font:600 14px/1 'IBM Plex Mono',monospace;">{{ it.qty }}</span>
+            <button type="button" onClick="{{ it.onInc }}" style="width:34px;height:34px;background:transparent;border:1px solid rgba(255,255,255,.26);color:#F2F3F5;font:600 14px/1 'IBM Plex Mono',monospace;cursor:pointer;" style-hover="border-color:#D8121F">+</button>
+            <button type="button" onClick="{{ it.onRemove }}" style="margin-left:4px;background:transparent;border:1px solid rgba(216,18,31,.5);color:#FF3D48;font:600 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;padding:10px 10px;cursor:pointer;" style-hover="background:#D8121F;color:#fff">{{ t.remove }}</button>
+          </span>
+        </div>
+      </sc-for>
+      <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:40px 24px;display:flex;flex-direction:column;gap:12px;">
+          <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#FF3D48;">{{ t.cartEmptyTitle }}</span>
+          <p style="margin:0;font:400 15px/1.65 Archivo,sans-serif;color:#C6CBD2;max-width:44ch;text-wrap:pretty;">{{ t.cartEmptyText }}</p>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,.15);padding:18px 24px 24px;display:flex;flex-direction:column;gap:14px;">
+      <div style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#B7BDC5;">{{ t.waMsgLabel }}</div>
+      <div style="max-height:150px;overflow-y:auto;background:#23282F;border:1px solid rgba(255,255,255,.15);padding:14px;font:400 12px/1.7 'IBM Plex Mono',monospace;color:#DEE1E5;white-space:pre-wrap;">{{ cartMessage }}</div>
+      <a href="{{ orderHref }}" onClick="{{ onConfirm }}" target="{{ orderTarget }}" rel="{{ orderRel }}" style="{{ confirmStyle }}">{{ confirmLabel }}</a>
+      <span style="font:400 10.5px/1.6 'IBM Plex Mono',monospace;color:#A2A9B2;">{{ cartNote }}</span>
+    </div>
+  </aside>
+</div>
+</sc-if>
+
+<sc-if value="{{ cursorOn }}" hint-placeholder-val="{{ false }}">
+
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;langue&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;fr&quot;,&quot;en&quot;,&quot;es&quot;],&quot;default&quot;:&quot;fr&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Langue&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mise en scène&quot;},&quot;preloader&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mise en scène&quot;},&quot;customCursor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mise en scène&quot;}}">
+const FR = {
+  askPrice: 'DEMANDER UN PRIX',
+  hqLine: 'SIÈGE ET ENTREPÔT — 520 SQUIER ST, THUNDER BAY, ON P7B 4A8',
+  shipping: 'EXPÉDITION — AMÉRIQUE DU NORD',
+  navCatalogue: 'Catalogue', navServices: 'Services', navLocation: 'Localisation', navRequest: 'Recherche de pièce',
+  heroKicker: '// AUTO · CAMION · MOTO · BATEAU', heroStock: 'STOCK PHYSIQUE — THUNDER BAY, ON',
+  heroT1: 'La bonne pièce,', heroT2: 'la bonne référence.',
+  heroMeta1: '520 SQUIER ST · THUNDER BAY, ON', heroMeta2: 'PIÈCES NEUVES ET OCCASION · PRIX EN USD',
+  heroCta1: 'Voir le catalogue', heroCta2: 'Demander une pièce',
+  heroLead: "Douze systèmes mécaniques, pièces neuves et occasion, pour automobiles, camions, motos et bateaux. Chaque référence publiée porte son état, sa compatibilité et son prix — et rien n'est publié avant d'être vérifié.",
+  q3Kicker: '// TROIS QUESTIONS, TROIS RÉPONSES',
+  q1: 'Combien ça coûte — prix en dollars US affiché sur la fiche.',
+  q2: 'Où nous sommes — Thunder Bay, Ontario. Une seule adresse.',
+  q3: 'Si la pièce va — état et compatibilité sur chaque ligne.',
+  ctaBrowse: 'Parcourir les 12 systèmes', ctaForm: 'Fiche de demande de pièce',
+  kUnivers: '// UNIVERS', universTitle: 'Quatre univers, un seul catalogue', filterCat: 'Filtrer le catalogue',
+  kFacts: '// FAITS VÉRIFIABLES', factsNote: "AUCUN AVIS PUBLIÉ À CE JOUR — NOUS N'EN INVENTONS PAS",
+  fact1: 'Miles au compteur du Ford Super Duty 2011 dont nous avons remplacé la benne.',
+  fact2: "Prix d'entrée du catalogue, en dollars US — aile métallique, second choix d'usine.",
+  fact3: 'Garantie constatée sur pièce mécanique. Politique générale',
+  fact4: "Zone d'expédition, numéro de suivi transmis par e-mail à l'envoi.",
+  tbc: '',
+  kStock: '// SÉLECTION — STOCK PHYSIQUE', stockT1: 'Pièces documentées', stockT2: 'et disponibles',
+  stockDesc: "Les références dont l'état, la compatibilité et le prix sont vérifiés. Le catalogue complet se trouve juste en dessous.",
+  photoSoon: 'PHOTO À VENIR', priceLabel: 'PRIX',
+  kCat: '// CATALOGUE GÉNÉRAL — ORGANISÉ PAR SYSTÈMES', catT1: 'Douze systèmes,',
+  searchPh: 'Rechercher une pièce, une famille, une référence…',
+  thImage: 'IMAGE', thRef: 'RÉFÉRENCE', thPart: 'PIÈCE / FAMILLE', thState: 'ÉTAT', thOem: 'RÉF. OEM', thNew: 'PRIX NEUF', thUsed: 'PRIX OCC.', thCart: 'PANIER',
+  noRowsTitle: 'AUCUNE RÉFÉRENCE PUBLIÉE DANS CETTE CATÉGORIE',
+  noRowsText: "La catégorie est ouverte mais son contenu n'est pas encore en ligne. Dites-nous la pièce que vous cherchez : nous la sourçons et vous répondons avec l'état, la compatibilité et le prix.",
+  askThis: 'Demander cette pièce',
+  catNote: 'PRIX ET RÉFÉRENCES VÉRIFIÉS AVANT VENTE · UNE MÊME PIÈCE VARIE SELON MOTEUR, ANNÉE ET MARCHÉ',
+  askPriceShort: 'Demander un prix',
+  kGloss: '// GLOSSAIRE', glossTitle: 'Le vocabulaire du métier, traduit',
+  glossDesc: "Survolez un terme : sa définition s'affiche. Le même vocabulaire est utilisé sur toutes les fiches du catalogue.",
+  glossHint: 'Survolez un terme pour afficher sa définition.',
+  kServices: '// SERVICES ET ATELIER', servicesTitle: "Avant, pendant, après l'achat",
+  visualSlot: "EMPLACEMENT VISUEL D'AMBIANCE 01<br>CHARGEMENT SUR REMORQUE · LUMIÈRE DE FIN DE JOURNÉE<br>2400 × 1600 · RETOUCHE REQUISE",
+  kCase: '// UN CAS RÉEL', caseT1: 'Venu de Géorgie', caseT2: 'pour une benne',
+  casePara1a: "Un client a conduit son Ford Super Duty 2011 depuis la Géorgie jusqu'à Thunder Bay pour un échange de benne. Le compteur affichait près de",
+  casePara1b: 'Le camion est reparti le même jour, benne posée et câblage refait en atelier.',
+  casePara2: "C'est le seul témoignage que nous puissions documenter aujourd'hui. Nous préférons une histoire vraie à dix avis anonymes.",
+  caseTag1: 'ÉCHANGE DE BENNE · ATELIER', caseTag2: 'MÊME JOURNÉE', caseTag3: 'SUPER DUTY 2011',
+  kLoc: '// LOCALISATION ET ZONE DE SERVICE', locNote: 'UNE SEULE ADRESSE PRINCIPALE',
+  locHq: 'Siège et entrepôt', locZone: 'Zone de service',
+  telLabel: 'TÉL', mailLabel: 'E-MAIL', hoursLabel: 'HORAIRES',
+  zone1: 'Retrait sur rendez-vous à Thunder Bay',
+  zone2: "Expédition dans toute l'Amérique du Nord, suivi par e-mail",
+  zone3: 'Clientèle desservie au Québec et en Ontario',
+  zone4: 'Pose en atelier sur rendez-vous',
+  locTbc: "[À CONFIRMER — POINTS DE RETRAIT ET ENTREPÔTS D'EXPÉDITION]",
+  locTbcSub: "Bloc prévu : liste d'implantations, ville, rôle, délai.",
+  mapSlot: 'EMPLACEMENT CARTE INTERACTIVE',
+  kSearch: '// RECHERCHE DE PIÈCE', searchT1: 'Dites-nous', searchT2: 'ce que vous', searchT3: 'cherchez',
+  searchLead: "La fiche de demande du catalogue, champ pour champ — ce sont les mêmes questions qu'au téléphone. Réponse par e-mail avec disponibilité, état et prix en dollars US.",
+  partWanted: 'PIÈCE RECHERCHÉE', partWantedPh: "Plaquettes avant, RAM 1500 2019, 5.7 L",
+  formNote: 'RÉPONSE SOUS 48 H OUVRÉES · PRIX EN DOLLARS US',
+  submitIdle: 'ENVOYER LA DEMANDE', submitDone: 'DEMANDE ENVOYÉE', submitWa: 'ENVOYER SUR WHATSAPP',
+  reqIntro: "Bonjour, j'aimerais rechercher cette pièce :", reqOutro: 'Merci de me confirmer la disponibilité, le prix et le délai.', reqWantedLabel: 'PIÈCE RECHERCHÉE',
+  footTagline: 'PIÈCES AUTO · QUALITÉ · PERFORMANCE',
+  fCatalogue: 'CATALOGUE', fCatLink1: 'Catalogue général — 12 systèmes', fCatLink2: 'Fiche de demande de pièce',
+  fHouse: 'MAISON', fServices: 'Services et atelier', fLocation: 'Localisation', fContact: 'Contact', fLegal: 'Mentions légales', fTerms: 'Conditions de vente',
+  fContactTitle: 'CONTACT', fWhatsapp: 'WHATSAPP',
+  copyright: '© 2026 THUNDER BAY AUTO — TOUS DROITS RÉSERVÉS', pricesUsd: 'PRIX AFFICHÉS EN DOLLARS AMÉRICAINS (USD)',
+  adminLink: 'ESPACE ADMINISTRATEUR — GESTION DU CATALOGUE',
+  detailKicker: '// FICHE PIÈCE', descLabel: 'DESCRIPTIF', noDesc: "Descriptif à compléter depuis l'espace administrateur. Contactez-nous pour l'état détaillé, les photos complémentaires et la compatibilité exacte.", specState: 'ÉTAT', specOem: 'RÉF. OEM', specNew: 'PRIX NEUF', specUsed: 'PRIX OCCASION', specFit: 'COMPATIBILITÉ', specStock: 'STOCK',
+  cartBtn: 'Panier', cartKicker: '// PANIER — DEMANDE DE COMMANDE', close: 'FERMER', remove: 'RETIRER',
+  cartEmptyTitle: 'PANIER VIDE',
+  cartEmptyText: "Ajoutez une pièce depuis le catalogue : chaque ligne porte un bouton « Ajouter au panier ». Vous confirmerez ensuite la commande sur WhatsApp.",
+  waMsgLabel: 'MESSAGE ENVOYÉ SUR WHATSAPP',
+  cartTitleEmpty: 'Votre panier', cartTitleOne: 'pièce retenue', cartTitleMany: 'pièces retenues',
+  confirmWa: 'CONFIRMER SUR WHATSAPP', confirmForm: 'ENVOYER PAR LE FORMULAIRE', browseCat: 'PARCOURIR LE CATALOGUE',
+  cartNoteWa: "La conversation WhatsApp s'ouvre avec ce récapitulatif déjà écrit. Vous n'avez plus qu'à l'envoyer.",
+  cartNoteEmpty: 'Ajoutez au moins une pièce pour pouvoir confirmer une commande.',
+  cartNoteNo: 'Aucun numéro WhatsApp enregistré pour le moment : la demande passe par le formulaire de recherche de pièce.',
+  addCart: 'AJOUTER AU PANIER', inCart: 'DANS LE PANIER', addShort: '+ PANIER', inShort: 'AU PANIER ✓',
+  msgIntro: "Bonjour, j'aimerais commander ces articles :", msgOutro: "Merci de me confirmer la disponibilité, le prix total et le délai d'expédition.",
+  msgEmpty: '(votre panier est vide)', priceTbc: 'prix à confirmer',
+  vAll: 'TOUS LES UNIVERS', refsWord: 'RÉF.', familiesOne: 'FAMILLE', familiesMany: 'FAMILLES', loading: 'CHARGEMENT',
+  resultsTitle: 'Résultats de recherche', catalogueWord: 'Catalogue',
+  catSubtitleEmpty: 'catalogue en cours de saisie', catSubtitleN: 'familles de pièces',
+  stockLine: (n, total) => n + ' RÉFÉRENCE' + (n > 1 ? 'S' : '') + ' CHIFFRÉE' + (n > 1 ? 'S' : '') + ' SUR ' + total + " AU CATALOGUE · MISE À JOUR DEPUIS L'ESPACE ADMINISTRATEUR",
+  loaderLabels: ['INITIALISATION DU CATALOGUE', 'INDEXATION DES RÉFÉRENCES', 'CONTRÔLE DES COMPATIBILITÉS', 'CONVERSION DES PRIX EN USD', 'STOCK PRÊT'],
+  veh: { Auto: 'Auto', Camion: 'Camion', Moto: 'Moto', Bateau: 'Bateau' },
+  univDesc: {
+    Auto: 'Voitures et utilitaires légers : moteur, transmission, freinage, carrosserie, électronique.',
+    Camion: 'Poids lourds : moteur, ponts, suspension pneumatique, freinage à air, cabine, remorque.',
+    Moto: 'Deux-roues : haut moteur, kits chaîne, fourches, freinage, carénages, électricité.',
+    Bateau: 'Marine : hors-bord et inboard, hélices, pompes de cale, refroidissement, commandes.'
+  },
+  services: [
+    ['Expédition Amérique du Nord', "Envoi depuis Thunder Bay, numéro de suivi transmis par e-mail. Devis d'expédition qualifié selon la dimension de la pièce."],
+    ['Retrait sur rendez-vous', 'Enlèvement au 520 Squier St. Créneau confirmé par téléphone ou par e-mail avant votre déplacement.'],
+    ['Pose en atelier', "Montage et reprise de câblage sur rendez-vous. Devis de pose distinct du prix de la pièce."],
+    ['Recherche de pièce', "Sourcing à partir du type de véhicule, de la marque, du modèle, de l'année et de la motorisation."],
+    ['Vérification et réservation', "Contrôle de compatibilité avant achat, photos complémentaires sur demande, réservation d'une pièce avant sa mise en vente."],
+    ['Garantie', '30 jours constatés sur une pièce mécanique. Politique générale — elle sera publiée telle quelle, sans zone grise.']
+  ],
+  glossary: [
+    ["Dépose d'origine", "Pièce montée en usine, retirée d'un véhicule neuf ou récent — en anglais OEM take-off. Qualité d'origine, prix inférieur au neuf."],
+    ["Second choix d'usine", "Pièce neuve écartée du circuit de vente pour un défaut d'aspect mineur. Cote mécanique intacte."],
+    ['Référence OEM', "Numéro de pièce du constructeur. C'est la seule garantie d'une correspondance exacte."],
+    ['Occasion contrôlée', 'Pièce démontée, nettoyée et vérifiée avant mise en vente. État décrit sans embellissement.'],
+    ['Compatibilité', 'Correspondance vérifiée entre la référence et le couple marque / modèle / année / motorisation de votre véhicule.'],
+    ['VIN', "Numéro d'identification du véhicule, 17 caractères. Il lève toute ambiguïté sur la version et le marché."]
+  ],
+  fields: [
+    ['TYPE', 'Auto / camion / moto / bateau'], ['MARQUE', 'RAM'], ['MODÈLE', '1500'], ['ANNÉE', '2019'],
+    ['MOTORISATION / CYLINDRÉE', '5.7 L HEMI'], ['N° VIN OU SÉRIE', 'Si disponible'], ['RÉFÉRENCE OEM', 'Si connue'],
+    ['ÉTAT SOUHAITÉ', 'Neuf ou occasion'], ['QUANTITÉ', '1'], ['VILLE / PAYS DE LIVRAISON', 'Montréal, QC']
+  ]
+};
+
+const EN = {
+  askPrice: 'REQUEST A PRICE',
+  hqLine: 'HEAD OFFICE AND WAREHOUSE — 520 SQUIER ST, THUNDER BAY, ON P7B 4A8',
+  shipping: 'SHIPPING — NORTH AMERICA',
+  navCatalogue: 'Catalogue', navServices: 'Services', navLocation: 'Location', navRequest: 'Part request',
+  heroKicker: '// CAR · TRUCK · MOTORCYCLE · BOAT', heroStock: 'PHYSICAL STOCK — THUNDER BAY, ON',
+  heroT1: 'The right part,', heroT2: 'the right number.',
+  heroMeta1: '520 SQUIER ST · THUNDER BAY, ON', heroMeta2: 'NEW AND USED PARTS · PRICES IN USD',
+  heroCta1: 'Browse the catalogue', heroCta2: 'Request a part',
+  heroLead: 'Twelve mechanical systems, new and used parts, for cars, trucks, motorcycles and boats. Every published reference carries its condition, its fitment and its price — and nothing goes online before it is verified.',
+  q3Kicker: '// THREE QUESTIONS, THREE ANSWERS',
+  q1: 'What it costs — price in US dollars shown on the listing.',
+  q2: 'Where we are — Thunder Bay, Ontario. One single address.',
+  q3: 'Whether it fits — condition and fitment on every line.',
+  ctaBrowse: 'Browse the 12 systems', ctaForm: 'Part request form',
+  kUnivers: '// SEGMENTS', universTitle: 'Four segments, one catalogue', filterCat: 'Filter the catalogue',
+  kFacts: '// VERIFIABLE FACTS', factsNote: 'NO REVIEWS PUBLISHED TO DATE — WE DO NOT INVENT THEM',
+  fact1: 'Miles on the 2011 Ford Super Duty whose bed we replaced.',
+  fact2: 'Entry price of the catalogue, in US dollars — steel fender, factory second.',
+  fact3: 'Days of warranty observed on a mechanical part. General policy',
+  fact4: 'Shipping area, tracking number sent by e-mail on dispatch.',
+  tbc: '[TO BE CONFIRMED]',
+  kStock: '// SELECTION — PHYSICAL STOCK', stockT1: 'Documented parts', stockT2: 'and available',
+  stockDesc: 'The references whose condition, fitment and price are verified. The full catalogue sits right below.',
+  photoSoon: 'PHOTO COMING', priceLabel: 'PRICE',
+  kCat: '// GENERAL CATALOGUE — ORGANISED BY SYSTEM', catT1: 'Twelve systems,',
+  searchPh: 'Search a part, a family, a reference…',
+  thImage: 'IMAGE', thRef: 'REFERENCE', thPart: 'PART / FAMILY', thState: 'CONDITION', thOem: 'OEM REF.', thNew: 'NEW PRICE', thUsed: 'USED PRICE', thCart: 'CART',
+  noRowsTitle: 'NO REFERENCE PUBLISHED IN THIS CATEGORY',
+  noRowsText: 'The category is open but its content is not online yet. Tell us the part you are looking for: we source it and answer with condition, fitment and price.',
+  askThis: 'Request this part',
+  catNote: 'PRICES AND REFERENCES VERIFIED BEFORE SALE · THE SAME PART VARIES BY ENGINE, YEAR AND MARKET',
+  askPriceShort: 'Request a price',
+  kGloss: '// GLOSSARY', glossTitle: 'The trade vocabulary, translated',
+  glossDesc: 'Hover a term to read its definition. The same vocabulary is used on every catalogue listing.',
+  glossHint: 'Hover a term to display its definition.',
+  kServices: '// SERVICES AND SHOP', servicesTitle: 'Before, during and after the sale',
+  visualSlot: 'AMBIENT IMAGE SLOT 01<br>LOADING ON A TRAILER · END OF DAY LIGHT<br>2400 × 1600 · RETOUCHING REQUIRED',
+  kCase: '// ONE REAL CASE', caseT1: 'Drove from Georgia', caseT2: 'for a truck bed',
+  casePara1a: 'A customer drove his 2011 Ford Super Duty from Georgia to Thunder Bay for a bed swap. The odometer read close to',
+  casePara1b: 'The truck left the same day, bed fitted and wiring redone in the shop.',
+  casePara2: 'It is the only testimonial we can document today. We prefer one true story to ten anonymous reviews.',
+  caseTag1: 'BED SWAP · SHOP', caseTag2: 'SAME DAY', caseTag3: 'SUPER DUTY 2011',
+  kLoc: '// LOCATION AND SERVICE AREA', locNote: 'ONE MAIN ADDRESS ONLY',
+  locHq: 'Head office and warehouse', locZone: 'Service area',
+  telLabel: 'PHONE', mailLabel: 'E-MAIL', hoursLabel: 'HOURS',
+  zone1: 'Pickup by appointment in Thunder Bay',
+  zone2: 'Shipping across North America, tracking by e-mail',
+  zone3: 'Customers served in Quebec and Ontario',
+  zone4: 'Installation in the shop by appointment',
+  locTbc: '[TO BE CONFIRMED — PICKUP POINTS AND SHIPPING WAREHOUSES]',
+  locTbcSub: 'Planned block: list of locations, city, role, lead time.',
+  mapSlot: 'INTERACTIVE MAP SLOT',
+  kSearch: '// PART REQUEST', searchT1: 'Tell us', searchT2: 'what you are', searchT3: 'looking for',
+  searchLead: 'The catalogue request sheet, field by field — the same questions we ask on the phone. Answer by e-mail with availability, condition and price in US dollars.',
+  partWanted: 'PART REQUESTED', partWantedPh: 'Front brake pads, RAM 1500 2019, 5.7 L',
+  formNote: 'ANSWER WITHIN 48 BUSINESS HOURS · PRICES IN US DOLLARS',
+  submitIdle: 'SEND THE REQUEST', submitDone: 'REQUEST SENT', submitWa: 'SEND ON WHATSAPP',
+  reqIntro: 'Hello, I am looking for this part:', reqOutro: 'Please confirm availability, price and lead time.', reqWantedLabel: 'PART REQUESTED',
+  footTagline: 'AUTO PARTS · QUALITY · PERFORMANCE',
+  fCatalogue: 'CATALOGUE', fCatLink1: 'General catalogue — 12 systems', fCatLink2: 'Part request form',
+  fHouse: 'COMPANY', fServices: 'Services and shop', fLocation: 'Location', fContact: 'Contact', fLegal: 'Legal notice', fTerms: 'Terms of sale',
+  fContactTitle: 'CONTACT', fWhatsapp: 'WHATSAPP',
+  copyright: '© 2026 THUNDER BAY AUTO — ALL RIGHTS RESERVED', pricesUsd: 'PRICES SHOWN IN US DOLLARS (USD)',
+  adminLink: 'ADMIN AREA — CATALOGUE MANAGEMENT',
+  detailKicker: '// PART SHEET', descLabel: 'DESCRIPTION', noDesc: 'Description to be completed from the admin area. Contact us for the detailed condition, extra photos and exact fitment.', specState: 'CONDITION', specOem: 'OEM REF.', specNew: 'NEW PRICE', specUsed: 'USED PRICE', specFit: 'FITMENT', specStock: 'STOCK',
+  cartBtn: 'Cart', cartKicker: '// CART — ORDER REQUEST', close: 'CLOSE', remove: 'REMOVE',
+  cartEmptyTitle: 'EMPTY CART',
+  cartEmptyText: 'Add a part from the catalogue: every line carries an "Add to cart" button. You then confirm the order on WhatsApp.',
+  waMsgLabel: 'MESSAGE SENT ON WHATSAPP',
+  cartTitleEmpty: 'Your cart', cartTitleOne: 'part selected', cartTitleMany: 'parts selected',
+  confirmWa: 'CONFIRM ON WHATSAPP', confirmForm: 'SEND VIA THE FORM', browseCat: 'BROWSE THE CATALOGUE',
+  cartNoteWa: 'The WhatsApp conversation opens with this summary already written. You only have to send it.',
+  cartNoteEmpty: 'Add at least one part before you can confirm an order.',
+  cartNoteNo: 'No WhatsApp number saved yet: the request goes through the part request form.',
+  addCart: 'ADD TO CART', inCart: 'IN THE CART', addShort: '+ CART', inShort: 'IN CART ✓',
+  msgIntro: 'Hello, I would like to order these items:', msgOutro: 'Please confirm availability, total price and shipping time.',
+  msgEmpty: '(your cart is empty)', priceTbc: 'price to be confirmed',
+  vAll: 'ALL SEGMENTS', refsWord: 'REFS', familiesOne: 'FAMILY', familiesMany: 'FAMILIES', loading: 'LOADING',
+  resultsTitle: 'Search results', catalogueWord: 'Catalogue',
+  catSubtitleEmpty: 'catalogue being filled in', catSubtitleN: 'part families',
+  stockLine: (n, total) => n + ' PRICED REFERENCE' + (n > 1 ? 'S' : '') + ' OUT OF ' + total + ' IN THE CATALOGUE · UPDATED FROM THE ADMIN AREA',
+  loaderLabels: ['INITIALISING THE CATALOGUE', 'INDEXING REFERENCES', 'CHECKING FITMENTS', 'CONVERTING PRICES TO USD', 'STOCK READY'],
+  veh: { Auto: 'Car', Camion: 'Truck', Moto: 'Motorcycle', Bateau: 'Boat' },
+  univDesc: {
+    Auto: 'Cars and light vans: engine, transmission, braking, body, electronics.',
+    Camion: 'Heavy trucks: engine, axles, air suspension, air brakes, cab, trailer.',
+    Moto: 'Two-wheelers: top end, chain kits, forks, braking, fairings, electrics.',
+    Bateau: 'Marine: outboards and inboards, propellers, bilge pumps, cooling, controls.'
+  },
+  services: [
+    ['Shipping across North America', 'Dispatch from Thunder Bay, tracking number sent by e-mail. Shipping quote based on the size of the part.'],
+    ['Pickup by appointment', 'Collection at 520 Squier St. Time slot confirmed by phone or e-mail before you travel.'],
+    ['Installation in the shop', 'Fitting and wiring work by appointment. Labour quoted separately from the part.'],
+    ['Part sourcing', 'Sourcing from the vehicle type, make, model, year and engine.'],
+    ['Check and hold', 'Fitment check before purchase, extra photos on request, a part held before it goes on sale.'],
+    ['Warranty', '30 days observed on a mechanical part. General policy [TO BE CONFIRMED] — it will be published as is.']
+  ],
+  glossary: [
+    ['OEM take-off', 'Factory-fitted part removed from a new or recent vehicle. Original quality, below new price.'],
+    ['Factory second', 'New part pulled from the sales channel for a minor cosmetic flaw. Mechanically intact.'],
+    ['OEM reference', "The manufacturer's part number. It is the only guarantee of an exact match."],
+    ['Inspected used', 'Part removed, cleaned and checked before sale. Condition described without embellishment.'],
+    ['Fitment', 'Verified match between the reference and your make / model / year / engine.'],
+    ['VIN', 'Vehicle identification number, 17 characters. It removes any doubt about version and market.']
+  ],
+  fields: [
+    ['TYPE', 'Car / truck / motorcycle / boat'], ['MAKE', 'RAM'], ['MODEL', '1500'], ['YEAR', '2019'],
+    ['ENGINE / DISPLACEMENT', '5.7 L HEMI'], ['VIN OR SERIAL No.', 'If available'], ['OEM REFERENCE', 'If known'],
+    ['CONDITION WANTED', 'New or used'], ['QUANTITY', '1'], ['DELIVERY CITY / COUNTRY', 'Montreal, QC']
+  ]
+};
+
+const ES = {
+  askPrice: 'PEDIR UN PRECIO',
+  hqLine: 'SEDE Y ALMACÉN — 520 SQUIER ST, THUNDER BAY, ON P7B 4A8',
+  shipping: 'ENVÍOS — AMÉRICA DEL NORTE',
+  navCatalogue: 'Catálogo', navServices: 'Servicios', navLocation: 'Ubicación', navRequest: 'Solicitud de pieza',
+  heroKicker: '// COCHE · CAMIÓN · MOTO · BARCO', heroStock: 'STOCK FÍSICO — THUNDER BAY, ON',
+  heroT1: 'La pieza correcta,', heroT2: 'la referencia exacta.',
+  heroMeta1: '520 SQUIER ST · THUNDER BAY, ON', heroMeta2: 'PIEZAS NUEVAS Y DE OCASIÓN · PRECIOS EN USD',
+  heroCta1: 'Ver el catálogo', heroCta2: 'Pedir una pieza',
+  heroLead: 'Doce sistemas mecánicos, piezas nuevas y de ocasión, para coches, camiones, motos y barcos. Cada referencia publicada lleva su estado, su compatibilidad y su precio — y nada se publica sin verificar.',
+  q3Kicker: '// TRES PREGUNTAS, TRES RESPUESTAS',
+  q1: 'Cuánto cuesta — precio en dólares estadounidenses en la ficha.',
+  q2: 'Dónde estamos — Thunder Bay, Ontario. Una sola dirección.',
+  q3: 'Si la pieza encaja — estado y compatibilidad en cada línea.',
+  ctaBrowse: 'Recorrer los 12 sistemas', ctaForm: 'Ficha de solicitud de pieza',
+  kUnivers: '// SEGMENTOS', universTitle: 'Cuatro segmentos, un solo catálogo', filterCat: 'Filtrar el catálogo',
+  kFacts: '// DATOS VERIFICABLES', factsNote: 'NINGUNA OPINIÓN PUBLICADA HASTA HOY — NO LAS INVENTAMOS',
+  fact1: 'Millas del Ford Super Duty 2011 al que le cambiamos la caja.',
+  fact2: 'Precio de entrada del catálogo, en dólares — aleta metálica, segunda selección de fábrica.',
+  fact3: 'Días de garantía constatados en una pieza mecánica. Política general',
+  fact4: 'Zona de envío, número de seguimiento enviado por correo al despachar.',
+  tbc: '[POR CONFIRMAR]',
+  kStock: '// SELECCIÓN — STOCK FÍSICO', stockT1: 'Piezas documentadas', stockT2: 'y disponibles',
+  stockDesc: 'Las referencias cuyo estado, compatibilidad y precio están verificados. El catálogo completo está justo debajo.',
+  photoSoon: 'FOTO PRÓXIMAMENTE', priceLabel: 'PRECIO',
+  kCat: '// CATÁLOGO GENERAL — ORGANIZADO POR SISTEMAS', catT1: 'Doce sistemas,',
+  searchPh: 'Buscar una pieza, una familia, una referencia…',
+  thImage: 'IMAGEN', thRef: 'REFERENCIA', thPart: 'PIEZA / FAMILIA', thState: 'ESTADO', thOem: 'REF. OEM', thNew: 'PRECIO NUEVO', thUsed: 'PRECIO OCAS.', thCart: 'CARRITO',
+  noRowsTitle: 'NINGUNA REFERENCIA PUBLICADA EN ESTA CATEGORÍA',
+  noRowsText: 'La categoría está abierta pero su contenido aún no está en línea. Díganos qué pieza busca: la localizamos y le respondemos con estado, compatibilidad y precio.',
+  askThis: 'Pedir esta pieza',
+  catNote: 'PRECIOS Y REFERENCIAS VERIFICADOS ANTES DE LA VENTA · UNA MISMA PIEZA VARÍA SEGÚN MOTOR, AÑO Y MERCADO',
+  askPriceShort: 'Pedir un precio',
+  kGloss: '// GLOSARIO', glossTitle: 'El vocabulario del oficio, traducido',
+  glossDesc: 'Pase el cursor sobre un término para ver su definición. El mismo vocabulario se usa en todas las fichas.',
+  glossHint: 'Pase el cursor sobre un término para ver su definición.',
+  kServices: '// SERVICIOS Y TALLER', servicesTitle: 'Antes, durante y después de la compra',
+  visualSlot: 'ESPACIO PARA IMAGEN DE AMBIENTE 01<br>CARGA EN REMOLQUE · LUZ DE FINAL DE JORNADA<br>2400 × 1600 · RETOQUE NECESARIO',
+  kCase: '// UN CASO REAL', caseT1: 'Vino de Georgia', caseT2: 'por una caja de carga',
+  casePara1a: 'Un cliente condujo su Ford Super Duty 2011 desde Georgia hasta Thunder Bay para cambiar la caja. El cuentakilómetros marcaba cerca de',
+  casePara1b: 'El camión salió el mismo día, con la caja montada y el cableado rehecho en el taller.',
+  casePara2: 'Es el único testimonio que podemos documentar hoy. Preferimos una historia verdadera a diez opiniones anónimas.',
+  caseTag1: 'CAMBIO DE CAJA · TALLER', caseTag2: 'MISMO DÍA', caseTag3: 'SUPER DUTY 2011',
+  kLoc: '// UBICACIÓN Y ZONA DE SERVICIO', locNote: 'UNA SOLA DIRECCIÓN PRINCIPAL',
+  locHq: 'Sede y almacén', locZone: 'Zona de servicio',
+  telLabel: 'TEL', mailLabel: 'CORREO', hoursLabel: 'HORARIO',
+  zone1: 'Recogida con cita previa en Thunder Bay',
+  zone2: 'Envíos a toda América del Norte, seguimiento por correo',
+  zone3: 'Clientes atendidos en Quebec y Ontario',
+  zone4: 'Montaje en taller con cita previa',
+  locTbc: '[POR CONFIRMAR — PUNTOS DE RECOGIDA Y ALMACENES DE ENVÍO]',
+  locTbcSub: 'Bloque previsto: lista de sedes, ciudad, función, plazo.',
+  mapSlot: 'ESPACIO PARA MAPA INTERACTIVO',
+  kSearch: '// SOLICITUD DE PIEZA', searchT1: 'Díganos', searchT2: 'qué está', searchT3: 'buscando',
+  searchLead: 'La ficha de solicitud del catálogo, campo por campo — las mismas preguntas que hacemos por teléfono. Respuesta por correo con disponibilidad, estado y precio en dólares.',
+  partWanted: 'PIEZA SOLICITADA', partWantedPh: 'Pastillas delanteras, RAM 1500 2019, 5.7 L',
+  formNote: 'RESPUESTA EN 48 H LABORABLES · PRECIOS EN DÓLARES',
+  submitIdle: 'ENVIAR LA SOLICITUD', submitDone: 'SOLICITUD ENVIADA', submitWa: 'ENVIAR POR WHATSAPP',
+  reqIntro: 'Hola, busco esta pieza:', reqOutro: 'Por favor confírmeme la disponibilidad, el precio y el plazo.', reqWantedLabel: 'PIEZA SOLICITADA',
+  footTagline: 'PIEZAS DE AUTOMÓVIL · CALIDAD · RENDIMIENTO',
+  fCatalogue: 'CATÁLOGO', fCatLink1: 'Catálogo general — 12 sistemas', fCatLink2: 'Ficha de solicitud de pieza',
+  fHouse: 'EMPRESA', fServices: 'Servicios y taller', fLocation: 'Ubicación', fContact: 'Contacto', fLegal: 'Aviso legal', fTerms: 'Condiciones de venta',
+  fContactTitle: 'CONTACTO', fWhatsapp: 'WHATSAPP',
+  copyright: '© 2026 THUNDER BAY AUTO — TODOS LOS DERECHOS RESERVADOS', pricesUsd: 'PRECIOS EN DÓLARES ESTADOUNIDENSES (USD)',
+  adminLink: 'ÁREA DE ADMINISTRACIÓN — GESTIÓN DEL CATÁLOGO',
+  detailKicker: '// FICHA DE PIEZA', descLabel: 'DESCRIPCIÓN', noDesc: 'Descripción por completar desde la administración. Contáctenos para el estado detallado, fotos adicionales y la compatibilidad exacta.', specState: 'ESTADO', specOem: 'REF. OEM', specNew: 'PRECIO NUEVO', specUsed: 'PRECIO OCASIÓN', specFit: 'COMPATIBILIDAD', specStock: 'STOCK',
+  cartBtn: 'Carrito', cartKicker: '// CARRITO — SOLICITUD DE PEDIDO', close: 'CERRAR', remove: 'QUITAR',
+  cartEmptyTitle: 'CARRITO VACÍO',
+  cartEmptyText: 'Añada una pieza desde el catálogo: cada línea tiene un botón «Añadir al carrito». Después confirmará el pedido por WhatsApp.',
+  waMsgLabel: 'MENSAJE ENVIADO POR WHATSAPP',
+  cartTitleEmpty: 'Su carrito', cartTitleOne: 'pieza seleccionada', cartTitleMany: 'piezas seleccionadas',
+  confirmWa: 'CONFIRMAR POR WHATSAPP', confirmForm: 'ENVIAR POR EL FORMULARIO', browseCat: 'RECORRER EL CATÁLOGO',
+  cartNoteWa: 'La conversación de WhatsApp se abre con este resumen ya escrito. Solo tiene que enviarlo.',
+  cartNoteEmpty: 'Añada al menos una pieza para poder confirmar un pedido.',
+  cartNoteNo: 'Todavía no hay número de WhatsApp guardado: la solicitud pasa por el formulario de pieza.',
+  addCart: 'AÑADIR AL CARRITO', inCart: 'EN EL CARRITO', addShort: '+ CARRITO', inShort: 'EN CARRITO ✓',
+  msgIntro: 'Hola, me gustaría pedir estos artículos:', msgOutro: 'Por favor confírmeme la disponibilidad, el precio total y el plazo de envío.',
+  msgEmpty: '(su carrito está vacío)', priceTbc: 'precio por confirmar',
+  vAll: 'TODOS LOS SEGMENTOS', refsWord: 'REF.', familiesOne: 'FAMILIA', familiesMany: 'FAMILIAS', loading: 'CARGANDO',
+  resultsTitle: 'Resultados de búsqueda', catalogueWord: 'Catálogo',
+  catSubtitleEmpty: 'catálogo en preparación', catSubtitleN: 'familias de piezas',
+  stockLine: (n, total) => n + ' REFERENCIA' + (n > 1 ? 'S' : '') + ' CON PRECIO DE ' + total + ' EN EL CATÁLOGO · ACTUALIZADO DESDE LA ADMINISTRACIÓN',
+  loaderLabels: ['INICIANDO EL CATÁLOGO', 'INDEXANDO REFERENCIAS', 'COMPROBANDO COMPATIBILIDADES', 'CONVIRTIENDO PRECIOS A USD', 'STOCK LISTO'],
+  veh: { Auto: 'Coche', Camion: 'Camión', Moto: 'Moto', Bateau: 'Barco' },
+  univDesc: {
+    Auto: 'Coches y furgonetas ligeras: motor, transmisión, frenos, carrocería, electrónica.',
+    Camion: 'Camiones: motor, puentes, suspensión neumática, frenos de aire, cabina, remolque.',
+    Moto: 'Dos ruedas: parte alta del motor, kits de cadena, horquillas, frenos, carenados, electricidad.',
+    Bateau: 'Náutica: fueraborda e intraborda, hélices, bombas de sentina, refrigeración, mandos.'
+  },
+  services: [
+    ['Envíos a América del Norte', 'Salida desde Thunder Bay, número de seguimiento por correo. Presupuesto de envío según el tamaño de la pieza.'],
+    ['Recogida con cita', 'Recogida en 520 Squier St. Franja horaria confirmada por teléfono o correo antes de su viaje.'],
+    ['Montaje en taller', 'Montaje y cableado con cita previa. Mano de obra presupuestada aparte de la pieza.'],
+    ['Búsqueda de piezas', 'Localización a partir del tipo de vehículo, marca, modelo, año y motorización.'],
+    ['Comprobación y reserva', 'Control de compatibilidad antes de comprar, fotos adicionales a petición, reserva de una pieza antes de su venta.'],
+    ['Garantía', '30 días constatados en una pieza mecánica. Política general [POR CONFIRMAR] — se publicará tal cual.']
+  ],
+  glossary: [
+    ['Desmontaje de origen', 'Pieza montada en fábrica, retirada de un vehículo nuevo o reciente. Calidad de origen, precio inferior al nuevo.'],
+    ['Segunda selección', 'Pieza nueva retirada de la venta por un defecto estético menor. Mecánicamente intacta.'],
+    ['Referencia OEM', 'Número de pieza del fabricante. Es la única garantía de coincidencia exacta.'],
+    ['Ocasión revisada', 'Pieza desmontada, limpiada y verificada antes de la venta. Estado descrito sin adornos.'],
+    ['Compatibilidad', 'Coincidencia verificada entre la referencia y su marca / modelo / año / motorización.'],
+    ['VIN', 'Número de identificación del vehículo, 17 caracteres. Elimina toda duda sobre versión y mercado.']
+  ],
+  fields: [
+    ['TIPO', 'Coche / camión / moto / barco'], ['MARCA', 'RAM'], ['MODELO', '1500'], ['AÑO', '2019'],
+    ['MOTORIZACIÓN / CILINDRADA', '5.7 L HEMI'], ['N.º VIN O SERIE', 'Si está disponible'], ['REFERENCIA OEM', 'Si se conoce'],
+    ['ESTADO DESEADO', 'Nuevo o de ocasión'], ['CANTIDAD', '1'], ['CIUDAD / PAÍS DE ENTREGA', 'Montreal, QC']
+  ]
+};
+
+const DICT = { fr: FR, en: EN, es: ES };
+
+class Component extends DCLogic {
+  state = { pct: 0, loaderDone: false, gloss: null, submitted: false, data: null, vtype: 'Tous', catId: 'c01', q: '', cart: [], cartOpen: false, lang: null, req: {}, reqWanted: '', detail: null };
+
+  CART_KEY = 'tba.panier.v1';
+  LANG_KEY = 'tba.langue';
+
+  _lang() {
+    const s = this.state.lang;
+    if (s && DICT[s]) return s;
+    const p = this.props.langue;
+    return DICT[p] ? p : 'fr';
+  }
+  _t() { return DICT[this._lang()]; }
+  _setLang(l) {
+    try { localStorage.setItem(this.LANG_KEY, l); } catch (e) {}
+    this.setState({ lang: l });
+  }
+  _loadCart() {
+    try { const r = JSON.parse(localStorage.getItem(this.CART_KEY)); if (Array.isArray(r)) this.setState({ cart: r }); } catch (e) {}
+    try { const l = localStorage.getItem(this.LANG_KEY); if (l && DICT[l]) this.setState({ lang: l }); } catch (e) {}
+  }
+  _setCart(cart) {
+    try { localStorage.setItem(this.CART_KEY, JSON.stringify(cart)); } catch (e) {}
+    this.setState({ cart });
+  }
+  _addToCart(p, e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const cart = this.state.cart.slice();
+    const i = cart.findIndex(x => x.id === p.id);
+    if (i > -1) cart[i] = Object.assign({}, cart[i], { qty: cart[i].qty + 1 });
+    else cart.push({ id: p.id, ref: p.ref, name: p.name, qty: 1, price: this._priceOf(p), image: p.image || '' });
+    this._setCart(cart);
+    this.setState({ cartOpen: true });
+  }
+  _priceOf(p) {
+    const n = /\d/.test(String(p.priceUsed || '')) ? p.priceUsed : (/\d/.test(String(p.priceNew || '')) ? p.priceNew : '');
+    return n || this._t().priceTbc;
+  }
+
+  componentDidMount() {
+    this._loadCart();
+    import('./catalogue-data.js').then(mod => {
+      this._cat = mod;
+      this.setState({ data: mod.load() });
+      this._onStore = e => { if (e.key === mod.STORE_KEY) this.setState({ data: mod.load() }); };
+      window.addEventListener('storage', this._onStore);
+    });
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this.setState({ pct: 100, loaderDone: true }); }
+    else {
+      let p = 0;
+      this._t2 = setInterval(() => {
+        p = Math.min(100, p + Math.random() * 9 + 3);
+        this.setState({ pct: Math.round(p) });
+        if (p >= 100) { clearInterval(this._t2); setTimeout(() => this.setState({ loaderDone: true }), 480); }
+      }, 90);
+    }
+    const root = this._root();
+    if (root && !reduce) {
+      const co = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { this._count(e.target); co.unobserve(e.target); } }), { threshold: .5 });
+      root.querySelectorAll('[data-count]').forEach(el => co.observe(el));
+      if (this.cursorOn()) {
+        this._onMove = e => {
+          const c = root.querySelector('#tba-cursor');
+          if (!c) return;
+          c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
+          const inter = e.target && e.target.closest && e.target.closest('a,button,input,textarea,[onmouseenter]');
+          c.style.width = inter ? '48px' : '26px'; c.style.height = inter ? '48px' : '26px';
+          c.style.borderColor = inter ? '#D8121F' : 'rgba(255,255,255,.72)';
+        };
+        window.addEventListener('pointermove', this._onMove, { passive: true });
+      }
+    }
+  }
+  componentWillUnmount() { clearInterval(this._t2); window.removeEventListener('pointermove', this._onMove); window.removeEventListener('storage', this._onStore); }
+
+  _root() { return document.querySelector('x-dc') || document.body; }
+  _count(el) {
+    const target = parseFloat(el.getAttribute('data-count'));
+    const suffix = el.textContent.replace(/[\d\s\u00a0.,]/g, '');
+    const t0 = performance.now(), dur = 1400;
+    const fmt = n => Math.round(n).toLocaleString('fr-CA').replace(/,/g, ' ');
+    const tick = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      el.textContent = fmt(target * (1 - Math.pow(1 - k, 3))) + (suffix ? ' ' + suffix : '');
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+  cursorOn() {
+    if (this.props.customCursor === false) return false;
+    return window.matchMedia('(hover:hover) and (min-width:1024px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  renderVals() {
+    const S = this.state, t = this._t(), lang = this._lang();
+    const loaderEnabled = this.props.preloader !== false;
+    const pct = S.pct;
+
+    const data = S.data;
+    const allCats = data ? data.categories : [];
+    const allParts = data ? data.parts : [];
+    const catName = id => { const c = allCats.find(x => x.id === id); return c ? c.name : ''; };
+    const hasNum = v => /\d/.test(String(v || ''));
+    const vehLabel = v => (t.veh[v] || v);
+
+    const waRaw = (data && data.settings && data.settings.whatsapp) || '';
+    const waNum = waRaw.replace(/[^\d]/g, '');
+    const priced = allParts.filter(p => hasNum(p.priceNew) || hasNum(p.priceUsed));
+    const inCart = id => S.cart.some(x => x.id === id);
+
+    const products = priced.map(p => ({
+      onAdd: e => this._addToCart(p, e),
+      onOpen: () => this.setState({ detail: p.id }),
+      addLabel: inCart(p.id) ? t.inCart : t.addCart,
+      image: p.image || '', hasImage: !!p.image, noImage: !p.image,
+      ref: p.ref, cat: catName(p.catId).toUpperCase(), state: (p.state || '').toUpperCase(),
+      name: p.name, fit: (p.fit || '').toUpperCase(),
+      price: hasNum(p.priceUsed) ? p.priceUsed : p.priceNew,
+      priceColor: '#F2F3F5'
+    }));
+    const stockLine = data ? t.stockLine(products.length, allParts.length) : t.loading + '…';
+
+    const vt = S.vtype;
+    const q = S.q.trim().toLowerCase();
+    const inV = p => vt === 'Tous' || (p.vehicles || []).indexOf(vt) > -1;
+    const hit = p => !q || (p.name + ' ' + p.ref + ' ' + (p.oem || '') + ' ' + (p.fit || '') + ' ' + catName(p.catId)).toLowerCase().indexOf(q) > -1;
+    const visible = allParts.filter(p => inV(p) && hit(p));
+
+    const vfilters = ['Tous', 'Auto', 'Camion', 'Moto', 'Bateau'].map(v => ({
+      label: v === 'Tous' ? t.vAll : vehLabel(v).toUpperCase(),
+      onClick: () => this.setState({ vtype: v }),
+      style: 'padding:10px 14px;background:' + (vt === v ? '#D8121F' : 'transparent') + ';color:' + (vt === v ? '#fff' : '#C6CBD2') + ';border:1px solid ' + (vt === v ? '#D8121F' : 'rgba(255,255,255,.26)') + ";font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;cursor:pointer;"
+    }));
+
+    const shownCats = allCats.filter(c => vt === 'Tous' || (c.vehicles || []).indexOf(vt) > -1);
+    const activeId = shownCats.some(c => c.id === S.catId) ? S.catId : (shownCats[0] ? shownCats[0].id : null);
+    const cats = shownCats.map(c => {
+      const n = visible.filter(p => p.catId === c.id).length;
+      const on = !q && c.id === activeId;
+      return {
+        code: c.code, name: c.name, count: n + ' ' + t.refsWord,
+        tags: (c.vehicles || []).map(vehLabel).join(' · ').toUpperCase(),
+        numColor: on ? '#fff' : '#D8121F',
+        onClick: () => this.setState({ catId: c.id, q: '' }),
+        style: 'display:flex;flex-direction:column;text-align:left;background:' + (on ? '#D8121F' : '#292E36') + ';color:' + (on ? '#fff' : '#F2F3F5') + ';box-shadow:0 0 0 1px rgba(255,255,255,.15);border:0;padding:16px 18px;cursor:pointer;font-family:Archivo,sans-serif;'
+      };
+    });
+
+    const rows = (q ? visible : visible.filter(p => p.catId === activeId)).map(p => ({
+      image: p.image || '', hasImage: !!p.image,
+      onOpen: () => this.setState({ detail: p.id }),
+      onAdd: e => this._addToCart(p, e),
+      addLabel: inCart(p.id) ? t.inShort : t.addShort,
+      addStyle: 'padding:10px 12px;background:' + (inCart(p.id) ? 'transparent' : '#D8121F') + ';color:' + (inCart(p.id) ? '#FF3D48' : '#fff') + ';border:1px solid ' + (inCart(p.id) ? 'rgba(216,18,31,.5)' : '#D8121F') + ";font:700 10px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;cursor:pointer;white-space:nowrap;",
+      ref: p.ref, name: p.name,
+      sub: (q ? catName(p.catId) + ' · ' : '') + (p.fit || '—'),
+      state: p.state || '—',
+      stateColor: /dépose|second/i.test(p.state || '') ? '#D8121F' : '#DEE1E5',
+      oem: p.oem || '—',
+      priceNew: p.priceNew || '—', newColor: hasNum(p.priceNew) ? '#F2F3F5' : '#A2A9B2',
+      priceUsed: p.priceUsed || '—', usedColor: hasNum(p.priceUsed) ? '#F2F3F5' : '#A2A9B2'
+    }));
+
+    const universes = ['Auto', 'Camion', 'Moto', 'Bateau'].map((v, i) => ({
+      num: 'UNIV-0' + (i + 1), name: vehLabel(v), text: t.univDesc[v],
+      count: allParts.filter(p => (p.vehicles || []).indexOf(v) > -1).length + ' ' + t.refsWord,
+      onClick: () => this.setState({ vtype: v, q: '' })
+    }));
+
+    const orderMessage = S.cart.length === 0
+      ? t.msgIntro + '\n\n' + t.msgEmpty
+      : t.msgIntro + '\n\n'
+        + S.cart.map((it, i) => (i + 1) + '. ' + it.ref + ' — ' + it.name + ' × ' + it.qty + ' — ' + it.price).join('\n')
+        + '\n\n' + t.msgOutro;
+
+    const detailPart = S.detail ? allParts.find(p => p.id === S.detail) : null;
+    const glossary = t.glossary.map(([term, def]) => ({ term, onEnter: () => this.setState({ gloss: def }), onLeave: () => this.setState({ gloss: null }) }));
+    const services = t.services.map(([title, text], i) => ({ num: '0' + (i + 1), title, text }));
+
+    return {
+      t, lang,
+      langs: ['fr', 'en', 'es'].map(l => ({
+        label: l.toUpperCase(),
+        onClick: () => this._setLang(l),
+        style: 'padding:9px 11px;border:0;background:' + (lang === l ? '#D8121F' : '#292E36') + ';color:' + (lang === l ? '#fff' : '#B7BDC5') + ";font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;cursor:pointer;"
+      })),
+      gridOn: this.props.showGrid !== false,
+      cursorOn: this.cursorOn(),
+      loaderVisible: loaderEnabled && !S.loaderDone,
+      loaderPct: String(pct).padStart(3, '0'),
+      loaderBar: pct + '%',
+      loaderLabel: t.loaderLabels[Math.min(t.loaderLabels.length - 1, Math.floor(pct / 21))],
+      marks: ['Ford', 'RAM', 'Dodge', 'Chevrolet', 'GMC', 'Jeep', 'Toyota', 'Nissan', 'Volvo', 'Freightliner', 'Kenworth', 'Peterbilt', 'Cummins', 'Detroit Diesel', 'Honda', 'Yamaha', 'Suzuki', 'Harley-Davidson', 'Mercury', 'Yamaha Marine'],
+      products, glossary, services,
+      stockLine, vfilters, cats, rows, universes, partTotal: allParts.length, query: S.q,
+      hasStock: products.length > 0,
+      waHref: waNum ? 'https://wa.me/' + waNum : '#recherche',
+      waLabel: waRaw || t.tbc,
+
+      cartCount: String(S.cart.reduce((n, x) => n + x.qty, 0)),
+      cartOpen: S.cartOpen,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      cartEmpty: S.cart.length === 0,
+      cartTitle: S.cart.length === 0 ? t.cartTitleEmpty : S.cart.length + ' ' + (S.cart.length > 1 ? t.cartTitleMany : t.cartTitleOne),
+      cartItems: S.cart.map((it, i) => ({
+        ref: it.ref, name: it.name, qty: String(it.qty), price: it.price,
+        image: it.image || '', hasImage: !!it.image,
+        onInc: () => { const c = S.cart.slice(); c[i] = Object.assign({}, it, { qty: it.qty + 1 }); this._setCart(c); },
+        onDec: () => { const c = S.cart.slice(); if (it.qty <= 1) c.splice(i, 1); else c[i] = Object.assign({}, it, { qty: it.qty - 1 }); this._setCart(c); },
+        onRemove: () => { const c = S.cart.slice(); c.splice(i, 1); this._setCart(c); }
+      })),
+      cartMessage: orderMessage,
+      orderHref: S.cart.length === 0 ? '#catalogue' : (waNum ? 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(orderMessage) : '#recherche'),
+      orderTarget: S.cart.length && waNum ? '_blank' : '',
+      orderRel: S.cart.length && waNum ? 'noopener' : '',
+      onConfirm: () => this.setState({ cartOpen: false }),
+      confirmLabel: S.cart.length === 0 ? t.browseCat : (waNum ? t.confirmWa : t.confirmForm),
+      confirmStyle: 'display:flex;align-items:center;justify-content:center;padding:17px;background:' + (S.cart.length ? '#D8121F' : 'transparent') + ';color:' + (S.cart.length ? '#fff' : '#C6CBD2') + ';border:1px solid ' + (S.cart.length ? '#D8121F' : 'rgba(255,255,255,.26)') + ';font:700 12px/1 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;',
+      cartNote: S.cart.length === 0 ? t.cartNoteEmpty : (waNum ? t.cartNoteWa : t.cartNoteNo),
+
+      detailOpen: !!detailPart,
+      closeDetail: () => this.setState({ detail: null }),
+      detail: detailPart ? {
+        name: detailPart.name, ref: detailPart.ref, cat: catName(detailPart.catId).toUpperCase(),
+        state: (detailPart.state || '—').toUpperCase(),
+        image: detailPart.image || '', hasImage: !!detailPart.image, noImage: !detailPart.image,
+        desc: (detailPart.desc || '').trim() || t.noDesc,
+        specs: [
+          [t.specState, detailPart.state || '—', '#F2F3F5'],
+          [t.specOem, detailPart.oem || '—', '#DEE1E5'],
+          [t.specNew, detailPart.priceNew || '—', hasNum(detailPart.priceNew) ? '#F2F3F5' : '#A2A9B2'],
+          [t.specUsed, detailPart.priceUsed || '—', hasNum(detailPart.priceUsed) ? '#F2F3F5' : '#A2A9B2'],
+          [t.specFit, detailPart.fit || '—', '#DEE1E5'],
+          [t.specStock, detailPart.stock || '—', '#DEE1E5']
+        ].map(([label, value, color]) => ({ label, value, color })),
+        addLabel: inCart(detailPart.id) ? t.inCart : t.addCart,
+        onAdd: e => this._addToCart(detailPart, e)
+      } : { specs: [] },
+      noRows: !!data && rows.length === 0,
+      catSubtitle: allParts.length > 0 ? allParts.length + ' ' + t.catSubtitleN : t.catSubtitleEmpty,
+      glossActive: S.gloss || t.glossHint,
+      tableTitle: q ? t.resultsTitle : (catName(activeId) || t.catalogueWord),
+      tableMeta: (data ? rows.length + ' ' + (rows.length > 1 ? t.familiesMany : t.familiesOne) : t.loading) + (vt === 'Tous' ? '' : ' · ' + vehLabel(vt).toUpperCase()),
+      fields: t.fields.map(([label, ph], i) => ({
+        label, ph, value: S.req[i] || '',
+        onInput: e => { const v = e.target.value; this.setState(st => ({ req: Object.assign({}, st.req, { [i]: v }), submitted: false })); }
+      })),
+      reqWanted: S.reqWanted,
+      onReqWanted: e => this.setState({ reqWanted: e.target.value, submitted: false }),
+      submitLabel: S.submitted ? t.submitDone : (waNum ? t.submitWa : t.submitIdle),
+      onSubmit: e => {
+        e.preventDefault();
+        const lines = t.fields
+          .map(([label], i) => [label, (S.req[i] || '').trim()])
+          .filter(([, v]) => v)
+          .map(([label, v]) => label + ' : ' + v);
+        if (S.reqWanted.trim()) lines.push(t.reqWantedLabel + ' : ' + S.reqWanted.trim());
+        const msg = t.reqIntro + '\n\n' + (lines.length ? lines.join('\n') : '—') + '\n\n' + t.reqOutro;
+        this.setState({ submitted: true });
+        if (waNum) window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
