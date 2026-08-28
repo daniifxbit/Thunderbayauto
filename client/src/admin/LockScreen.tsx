@@ -2,15 +2,22 @@ import { useState, type FormEvent } from 'react';
 import logo from '../assets/logo-tba.png';
 import { PUBLIC_PATH } from '../lib/routes';
 
+export interface UnlockError {
+  /** Ce qu'il faut corriger, en clair. */
+  message: string;
+  /** Le message brut de Supabase, pour lever les derniers doutes. */
+  detail?: string;
+}
+
 interface Props {
-  onUnlock: (password: string) => Promise<string | null>;
+  onUnlock: (password: string) => Promise<UnlockError | null>;
 }
 
 const DEFAULT_MESSAGE = 'ACCÈS RÉSERVÉ À LA GESTION DU CATALOGUE.';
 
 export function LockScreen({ onUnlock }: Props) {
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<UnlockError | null>(null);
   const [busy, setBusy] = useState(false);
 
   async function submit(event: FormEvent) {
@@ -64,8 +71,9 @@ export function LockScreen({ onUnlock }: Props) {
         </form>
 
         <div className={'lock__message' + (error ? ' lock__message--error' : '')}>
-          {error ?? DEFAULT_MESSAGE}
+          {error ? error.message : DEFAULT_MESSAGE}
         </div>
+        {error?.detail ? <div className="lock__detail">Supabase : {error.detail}</div> : null}
       </div>
 
       <div className="lock__footer">THUNDER BAY AUTO — 520 SQUIER ST, THUNDER BAY, ON</div>

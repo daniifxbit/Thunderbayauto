@@ -18,7 +18,7 @@ import { FloatingActions } from './FloatingActions';
 import { DICT, type Lang } from './i18n';
 import { cartCount, loadCart, loadLang, orderMessage, saveCart, saveLang, type CartItem } from './cart';
 import { fetchCatalogue } from '../lib/catalogue';
-import { supabaseConfigured } from '../lib/supabase';
+import { configIssue, secretKeyMisused, supabaseConfigured } from '../lib/supabase';
 import { MissingConfig } from '../MissingConfig';
 import type { Catalogue, Part, Vehicle } from '../lib/types';
 import { displayPrice, hasNumber } from '../lib/types';
@@ -127,7 +127,7 @@ export function SiteApp() {
   const detailPart = detailId ? (parts.find((p) => p.id === detailId) ?? null) : null;
   const message = orderMessage(cart, t);
 
-  if (!supabaseConfigured) return <MissingConfig />;
+  if (!supabaseConfigured || secretKeyMisused) return <MissingConfig issue={configIssue()} />;
 
   return (
     <div className="s-root">

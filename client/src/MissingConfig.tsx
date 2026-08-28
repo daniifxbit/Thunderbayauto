@@ -1,8 +1,9 @@
-/** Affiché tant que les clés Supabase ne sont pas renseignées. */
-export function MissingConfig() {
+/** Affiché tant que les clés Supabase ne sont pas renseignées — ou sont fausses. */
+export function MissingConfig({ issue }: { issue?: string | null }) {
   return (
     <div className="config-screen">
       <span className="config-screen__kicker">// CONFIGURATION INCOMPLÈTE</span>
+      {issue ? <p className="config-screen__issue">{issue}</p> : null}
       <h1 className="config-screen__title">
         Connexion
         <br />

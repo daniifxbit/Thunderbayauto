@@ -2,14 +2,20 @@ import { useCallback, useEffect, useState } from 'react';
 import { AdminFooter } from './AdminFooter';
 import { AdminHeader } from './AdminHeader';
 import { CategoriesView } from './CategoriesView';
-import { LockScreen } from './LockScreen';
+import { LockScreen, type UnlockError } from './LockScreen';
 import { PartEditor } from './PartEditor';
 import { PartsView } from './PartsView';
 import { SettingsView } from './SettingsView';
 import { StatStrip } from './StatStrip';
 import * as db from '../lib/catalogue';
-import { isSignedIn, onAuthChange, signIn, signOut } from '../lib/auth';
-import { supabaseConfigured } from '../lib/supabase';
+import { isSignedIn, onAuthChange, signIn, signOut, type SignInFailure } from '../lib/auth';
+import {
+  ADMIN_EMAIL,
+  SUPABASE_URL,
+  configIssue,
+  secretKeyMisused,
+  supabaseConfigured,
+} from '../lib/supabase';
 import { MissingConfig } from '../MissingConfig';
 import type { Tab } from '../lib/tabs';
 import type { Catalogue, Category, Part, PartForm, Vehicle } from '../lib/types';
@@ -98,17 +104,37 @@ export function AdminApp() {
 
   /* --------------------------------------------------------- ouverture ---- */
 
-  async function unlock(password: string): Promise<string | null> {
-    const failure = await signIn(password);
-    if (!failure) {
+  async function unlock(password: string): Promise<UnlockError | null> {
+    const error = await signIn(password);
+    if (!error) {
       setAuthed(true);
       await reload();
       return null;
     }
-    if (failure === 'rate') return 'TROP DE TENTATIVES — RÉESSAYEZ DANS QUELQUES MINUTES.';
-    if (failure === 'network') return 'SERVEUR INJOIGNABLE — VÉRIFIEZ LA CONNEXION.';
-    if (failure === 'config') return 'COMPTE ADMINISTRATEUR NON CONFIGURÉ (VITE_ADMIN_EMAIL).';
-    return 'MOT DE PASSE INCORRECT — RÉESSAYEZ.';
+
+    const messages: Record<SignInFailure, string> = {
+      invalid: 'MOT DE PASSE INCORRECT — RÉESSAYEZ.',
+      rate: 'TROP DE TENTATIVES — RÉESSAYEZ DANS QUELQUES MINUTES.',
+      badKey: 'CLÉ SUPABASE REFUSÉE PAR LE PROJET.',
+      emailDisabled:
+        "LA CONNEXION PAR E-MAIL EST DÉSACTIVÉE DANS SUPABASE — RÉACTIVEZ LE FOURNISSEUR « EMAIL ».",
+      unconfirmed: "L'ADRESSE DU COMPTE N'EST PAS CONFIRMÉE DANS SUPABASE.",
+      unreachable: "PROJET SUPABASE INJOIGNABLE — VÉRIFIEZ L'ADRESSE DU PROJET.",
+      noAdminEmail: 'AUCUNE ADRESSE ADMINISTRATEUR CONFIGURÉE (VITE_ADMIN_EMAIL).',
+    };
+
+    // Sur les pannes de configuration, un défaut de saisie repéré à l'avance
+    // explique mieux la panne que le message générique.
+    const configFailures: SignInFailure[] = ['unreachable', 'badKey', 'noAdminEmail'];
+    const hint = configFailures.includes(error.failure) ? configIssue() : null;
+
+    return {
+      message: hint ?? messages[error.failure],
+      detail:
+        error.failure === 'invalid'
+          ? undefined
+          : `${error.detail} · projet ${SUPABASE_URL || '(vide)'} · compte ${ADMIN_EMAIL || '(vide)'}`,
+    };
   }
 
   async function lock() {
@@ -215,7 +241,7 @@ export function AdminApp() {
 
   /* --------------------------------------------------------------- vue ---- */
 
-  if (!supabaseConfigured) return <MissingConfig />;
+  if (!supabaseConfigured || secretKeyMisused) return <MissingConfig issue={configIssue()} />;
   if (!ready) return <div className="app" />;
 
   if (!authed) {
