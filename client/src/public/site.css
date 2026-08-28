@@ -479,22 +479,23 @@
 }
 
 .bed {
-  width: min(96%, 1180px);
+  width: min(100%, 1480px);
   height: auto;
-  max-height: 60vh;
-  transform: translateY(-7vh);
+  max-height: 64vh;
+  transform: translateY(-5vh);
 }
 
-.bed__ref {
-  font: 600 13px/1 var(--mono);
-  letter-spacing: 0.1em;
+.bed__num {
+  font: 600 14px/1 var(--mono);
   fill: #ff4b57;
+  dominant-baseline: middle;
 }
 
 .bed__name {
-  font: 500 13px/1 var(--mono);
-  letter-spacing: 0.12em;
+  font: 500 14px/1 var(--mono);
+  letter-spacing: 0.08em;
   fill: #c6ccd3;
+  dominant-baseline: middle;
 }
 
 .stage__grid {
@@ -653,7 +654,8 @@
     height: 280vh;
   }
   /* Les étiquettes deviendraient illisibles à cette échelle. */
-  .bed__label {
+  /* Traits de rappel compris : à cette échelle ils ne désignent plus rien. */
+  .bed__callout {
     display: none;
   }
   .stage__grid {

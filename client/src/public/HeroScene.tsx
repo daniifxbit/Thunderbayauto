@@ -1,11 +1,8 @@
 import { useRef } from 'react';
-import { BedScene } from './BedScene';
+import { SEATING, TrailerScene } from './TrailerScene';
 import { BED_LABELS } from './bedLabels';
 import type { Dict, Lang } from './i18n';
 import { range, useScrollProgress } from './motion';
-
-/** Nombre de pièces posées, affiché comme un relevé d'atelier. */
-const SEATING = [0.42, 0.5, 0.58, 0.66, 0.76, 0.86, 0.94];
 
 export function HeroScene({ t, lang }: { t: Dict; lang: Lang }) {
   const stage = useRef<HTMLDivElement>(null);
@@ -19,7 +16,7 @@ export function HeroScene({ t, lang }: { t: Dict; lang: Lang }) {
     <section id="accueil" className="stage" ref={stage}>
       <div className="stage__pin">
         <div className="stage__scene">
-          <BedScene progress={progress} labels={labels} />
+          <TrailerScene progress={progress} labels={labels} />
         </div>
 
         <div className="stage__grid">
@@ -36,7 +33,7 @@ export function HeroScene({ t, lang }: { t: Dict; lang: Lang }) {
             <div className="stage__readout" aria-hidden="true">
               <span className="readout__count">
                 {String(seated).padStart(2, '0')}
-                <i>/07</i>
+                <i>/{String(SEATING.length).padStart(2, '0')}</i>
               </span>
               <span className="readout__label">{labels.caption.split('—')[1]?.trim()}</span>
               <span className="readout__bar">
