@@ -1,7 +1,8 @@
 node_modules/
 dist/
 *.tsbuildinfo
-server/data/
 .env
+.env.*
+!.env.example
 .DS_Store
 *.log

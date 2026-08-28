@@ -75,7 +75,9 @@ export function hasNumber(value: string | null | undefined): boolean {
   return /\d/.test(String(value ?? ''));
 }
 
-/** Une image déposée sur le serveur, par opposition à une adresse collée. */
-export function isUploadedImage(image: string): boolean {
-  return image.startsWith('/uploads/');
+/** Prix affiché sur le site public : l'occasion prime, sinon le neuf. */
+export function displayPrice(part: Part, fallback: string): string {
+  if (hasNumber(part.priceUsed)) return part.priceUsed;
+  if (hasNumber(part.priceNew)) return part.priceNew;
+  return fallback;
 }

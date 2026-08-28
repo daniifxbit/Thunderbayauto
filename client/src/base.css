@@ -1,0 +1,70 @@
+/* Thunder Bay Auto — fondations partagées par le site public et l'administration.
+   Valeurs reprises telles quelles de la maquette Claude Design
+   (`Thunder Bay Auto - Accueil.dc.html` et `… - Administration.dc.html`). */
+
+:root {
+  --bg: #1f232a;
+  --panel: #292e36;
+  --panel-alt: #23282f;
+  --panel-hover: #323841;
+  --ink: #f2f3f5;
+  --ink-2: #dee1e5;
+  --ink-3: #c6cbd2;
+  --ink-4: #b7bdc5;
+  --ink-5: #aeb5be;
+  --ink-6: #a2a9b2;
+  --ink-7: #9aa1aa;
+  --ink-8: #8e959e;
+  --red: #d8121f;
+  --red-hot: #ff2231;
+  --rule: rgba(255, 255, 255, 0.15);
+  --rule-soft: rgba(255, 255, 255, 0.11);
+  --rule-field: rgba(255, 255, 255, 0.26);
+  --rule-btn: rgba(255, 255, 255, 0.3);
+  --rule-toggle: rgba(255, 255, 255, 0.22);
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: Archivo, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--red-hot);
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: var(--mono);
+}
+
+::selection {
+  background: var(--red);
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
